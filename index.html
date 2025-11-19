@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Panel - Plataforma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+  <div class="layout" id="layoutRoot">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar__logo">
+        <span class="sidebar__logo-mark">F</span>
+        <span class="sidebar__logo-text">Farber Panel</span>
+      </div>
+
+      <nav class="sidebar__nav">
+        <a href="#" class="sidebar__link sidebar__link--active js-nav-link" data-section="dashboard">
+          <span class="sidebar__icon">🏠</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="#" class="sidebar__link js-nav-link" data-section="clientes">
+          <span class="sidebar__icon">👥</span>
+          <span>Clientes</span>
+        </a>
+        <a href="#" class="sidebar__link js-nav-link" data-section="productos">
+          <span class="sidebar__icon">🪑</span>
+          <span>Productos</span>
+        </a>
+        <a href="#" class="sidebar__link js-nav-link" data-section="presupuestos">
+          <span class="sidebar__icon">🧾</span>
+          <span>Presupuestos</span>
+        </a>
+        <a href="#" class="sidebar__link js-nav-link" data-section="reportes">
+          <span class="sidebar__icon">📊</span>
+          <span>Reportes</span>
+        </a>
+        <a href="#" class="sidebar__link js-nav-link" data-section="plataforma">
+          <span class="sidebar__icon">🧩</span>
+          <span>Plataforma</span>
+        </a>
+        <div class="sidebar__separator"></div>
+        <a href="#" class="sidebar__link js-nav-link" data-section="configuracion">
+          <span class="sidebar__icon">⚙️</span>
+          <span>Configuración</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="main">
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <button class="topbar__menu-button" id="menuToggle" aria-label="Abrir/cerrar menú">
+          ☰
+        </button>
+        <div class="topbar__title">
+          <h1>Panel de gestión</h1>
+          <p>Resumen general de tu plataforma</p>
+        </div>
+
+        <div class="topbar__right">
+          <button class="topbar__icon-button" title="Notificaciones">
+            🔔
+          </button>
+          <div class="topbar__user">
+            <div class="topbar__user-avatar">D</div>
+            <div class="topbar__user-info">
+              <span class="topbar__user-name">Diego</span>
+              <span class="topbar__user-role">Administrador</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENEDOR DE SECCIONES -->
+      <main class="content">
+        <!-- DASHBOARD -->
+        <section class="section section--active" id="section-dashboard">
+          <h2 class="section__title">Dashboard</h2>
+          <p class="section__subtitle">
+            Aquí ves una vista rápida de lo que está pasando.
+          </p>
+
+          <div class="grid">
+            <div class="card">
+              <h3 class="card__title">Presupuestos del día</h3>
+              <p class="card__number">12</p>
+              <p class="card__hint">Última actualización: hace 5 min</p>
+            </div>
+
+            <div class="card">
+              <h3 class="card__title">Clientes activos</h3>
+              <p class="card__number">87</p>
+              <p class="card__hint">+5 vs. último mes</p>
+            </div>
+
+            <div class="card">
+              <h3 class="card__title">Productos cargados</h3>
+              <p class="card__number">156</p>
+              <p class="card__hint">Incluye variaciones</p>
+            </div>
+
+            <div class="card card--accent">
+              <h3 class="card__title">Estado general</h3>
+              <p class="card__status card__status--ok">En línea</p>
+              <p class="card__hint">Todo funcionando correctamente</p>
+            </div>
+          </div>
+
+          <div class="card card--table">
+            <div class="card__header card__header--stack">
+              <div>
+                <h3 class="card__title">Últimos presupuestos</h3>
+                <p class="card__hint">Lista de los últimos movimientos generados.</p>
+              </div>
+              <button class="btn btn--ghost">Ver todos</button>
+            </div>
+
+            <!-- Filtros / búsqueda -->
+            <div class="filters">
+              <div class="filters__group">
+                <label for="searchPresupuestos">Buscar</label>
+                <input
+                  id="searchPresupuestos"
+                  type="text"
+                  placeholder="Buscar por cliente o número..."
+                  class="js-search-input"
+                  data-table-id="table-presupuestos"
+                />
+              </div>
+              <div class="filters__group">
+                <label for="estadoPresupuestos">Estado</label>
+                <select id="estadoPresupuestos" class="js-filter-select" data-table-id="table-presupuestos">
+                  <option value="">Todos</option>
+                  <option value="Aprobado">Aprobado</option>
+                  <option value="En revisión">En revisión</option>
+                  <option value="Borrador">Borrador</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="table-wrapper">
+              <table class="table" id="table-presupuestos">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th>Monto</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>000123</td>
+                    <td>OSMÉDICA</td>
+                    <td>18/11/2025</td>
+                    <td><span class="badge badge--success">Aprobado</span></td>
+                    <td>$ 1.250.000</td>
+                    <td>
+                      <button
+                        class="btn btn--ghost btn--small js-open-modal"
+                        data-modal-title="Presupuesto 000123 - OSMÉDICA"
+                        data-modal-body="Detalle de ejemplo del presupuesto 000123 para OSMÉDICA. Acá podrías mostrar ítems, cantidades, totales, etc."
+                      >
+                        Ver
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>000122</td>
+                    <td>Clínica Central</td>
+                    <td>17/11/2025</td>
+                    <td><span class="badge badge--warning">En revisión</span></td>
+                    <td>$ 845.000</td>
+                    <td>
+                      <button
+                        class="btn btn--ghost btn--small js-open-modal"
+                        data-modal-title="Presupuesto 000122 - Clínica Central"
+                        data-modal-body="Detalle de ejemplo del presupuesto 000122. Podés usar este modal como reemplazo visual del panel original."
+                      >
+                        Ver
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>000121</td>
+                    <td>Consultorios Norte</td>
+                    <td>16/11/2025</td>
+                    <td><span class="badge badge--neutral">Borrador</span></td>
+                    <td>$ 560.000</td>
+                    <td>
+                      <button
+                        class="btn btn--ghost btn--small js-open-modal"
+                        data-modal-title="Presupuesto 000121 - Consultorios Norte"
+                        data-modal-body="Detalle de ejemplo del presupuesto 000121. Más adelante podés inyectar datos reales."
+                      >
+                        Ver
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- CLIENTES -->
+        <section class="section" id="section-clientes">
+          <h2 class="section__title">Clientes</h2>
+          <p class="section__subtitle">
+            Administrá tus clientes desde un solo lugar.
+          </p>
+
+          <div class="card">
+            <div class="card__header">
+              <h3 class="card__title">Listado de clientes</h3>
+              <button class="btn btn--primary">Nuevo cliente</button>
+            </div>
+
+            <div class="table-wrapper">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>CUIT</th>
+                    <th>Contacto</th>
+                    <th>Teléfono</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>OSMÉDICA</td>
+                    <td>30-12345678-9</td>
+                    <td>María Gómez</td>
+                    <td>+54 11 5555-0000</td>
+                    <td>
+                      <button
+                        class="btn btn--ghost btn--small js-open-modal"
+                        data-modal-title="OSMÉDICA"
+                        data-modal-body="Datos de ejemplo del cliente OSMÉDICA. Podrías mostrar dirección, contactos, historial, etc."
+                      >
+                        Ver
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Clínica Central</td>
+                    <td>30-87654321-0</td>
+                    <td>Carlos Pérez</td>
+                    <td>+54 11 5555-1111</td>
+                    <td>
+                      <button
+                        class="btn btn--ghost btn--small js-open-modal"
+                        data-modal-title="Clínica Central"
+                        data-modal-body="Datos de ejemplo del cliente Clínica Central."
+                      >
+                        Ver
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- PRODUCTOS -->
+        <section class="section" id="section-productos">
+          <h2 class="section__title">Productos</h2>
+          <p class="section__subtitle">
+            Catálogo de muebles, estaciones, escritorios y más.
+          </p>
+
+          <div class="card">
+            <div class="card__header">
+              <h3 class="card__title">Listado de productos</h3>
+              <button class="btn btn--primary">Nuevo producto</button>
+            </div>
+
+            <div class="products-grid">
+              <article class="product-card">
+                <div class="product-card__image-placeholder">
+                  IMG
+                </div>
+                <h3 class="product-card__title">Estación DUBAI negra</h3>
+                <p class="product-card__meta">Código: DUBAI-NEGRO</p>
+                <p class="product-card__price">$ 350.000</p>
+                <button
+                  class="btn btn--ghost btn--small js-open-modal"
+                  data-modal-title="Estación DUBAI negra"
+                  data-modal-body="Acá podrías editar el producto DUBAI negra: precios, fotos, variantes, etc."
+                >
+                  Editar
+                </button>
+              </article>
+
+              <article class="product-card">
+                <div class="product-card__image-placeholder">
+                  IMG
+                </div>
+                <h3 class="product-card__title">Silla Zen Ergo</h3>
+                <p class="product-card__meta">Código: ZEN-ERGO</p>
+                <p class="product-card__price">$ 120.000</p>
+                <button
+                  class="btn btn--ghost btn--small js-open-modal"
+                  data-modal-title="Silla Zen Ergo"
+                  data-modal-body="Formulario de edición para la Silla Zen Ergo (datos de ejemplo)."
+                >
+                  Editar
+                </button>
+              </article>
+
+              <article class="product-card">
+                <div class="product-card__image-placeholder">
+                  IMG
+                </div>
+                <h3 class="product-card__title">Biblioteca baja</h3>
+                <p class="product-card__meta">Código: BIB-BAJA</p>
+                <p class="product-card__price">$ 95.000</p>
+                <button
+                  class="btn btn--ghost btn--small js-open-modal"
+                  data-modal-title="Biblioteca baja"
+                  data-modal-body="Formulario de edición para la Biblioteca baja (datos de ejemplo)."
+                >
+                  Editar
+                </button>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- PRESUPUESTOS -->
+        <section class="section" id="section-presupuestos">
+          <div class="budget-header">
+            <div class="budget-header__left">
+              <h2 class="section__title">Generador de Presupuestos</h2>
+              <p class="section__subtitle">
+                Armá, revisá y descargá tus presupuestos desde un solo lugar.
+              </p>
+            </div>
+            <div class="budget-header__right">
+              <div class="budget-header__controls">
+                <div class="field-inline">
+                  <label for="langSelect">Idioma</label>
+                  <select id="langSelect">
+                    <option value="es">ES</option>
+                    <option value="en">EN</option>
+                  </select>
+                </div>
+                <div class="field-inline">
+                  <label for="companySelect">Empresa</label>
+                  <select id="companySelect">
+                    <option value="srl">SRL</option>
+                    <option value="sa">SA</option>
+                  </select>
+                </div>
+                <div class="field-inline field-inline--theme">
+                  <span id="themeLabelMode">Claro</span>
+                  <label class="switch">
+                    <input type="checkbox" id="themeToggle" />
+                    <span class="switch__track">
+                      <span class="switch__thumb"></span>
+                    </span>
+                  </label>
+                </div>
+                <button class="btn btn--ghost budget-header__cart">
+                  <span>Carrito</span>
+                  <span class="budget-header__cart-badge">0</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="budget-layout">
+            <!-- DATOS DEL PRESUPUESTO -->
+            <div class="card budget-card">
+              <h3 class="card__title">Datos del presupuesto</h3>
+
+              <div class="budget-grid">
+                <div class="form__group">
+                  <label for="budgetClient">Cliente</label>
+                  <input id="budgetClient" type="text" placeholder="Nombre del cliente" />
+                </div>
+                <div class="form__group">
+                  <label for="budgetDate">Fecha</label>
+                  <input id="budgetDate" type="date" />
+                </div>
+                <div class="form__group">
+                  <label for="budgetDiscount">Descuento (%)</label>
+                  <input id="budgetDiscount" type="number" min="0" max="100" value="0" />
+                </div>
+                <div class="form__group">
+                  <label for="budgetShipping">Envío (ARS)</label>
+                  <input id="budgetShipping" type="number" min="0" value="0" />
+                </div>
+              </div>
+
+              <div class="budget-grid budget-grid--two">
+                <div class="form__group">
+                  <label for="budgetCurrency">Moneda</label>
+                  <select id="budgetCurrency">
+                    <option value="ARS">ARS</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                  </select>
+                </div>
+                <div class="form__group">
+                  <label for="budgetPayment">Pago</label>
+                  <select id="budgetPayment">
+                    <option>Transferencia</option>
+                    <option>Efectivo</option>
+                    <option>Tarjeta</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="exchange-box">
+                <p class="exchange-box__text">
+                  <strong>Cotización:</strong>
+                  USD 1400.56 ARS/USD | EUR 1623.38 ARS/EUR ·
+                  <span class="exchange-box__time">18/11/2025, 02:50:58</span>
+                </p>
+                <p class="exchange-box__sub">
+                  Base ARS → conversión al mostrar.
+                </p>
+                <button class="btn btn--ghost exchange-box__btn">Actualizar cotización</button>
+              </div>
+
+              <div class="form__group budget-notes">
+                <label for="budgetNotes">Observaciones</label>
+                <input
+                  id="budgetNotes"
+                  type="text"
+                  placeholder="Notas, condiciones, tiempos de entrega..."
+                />
+              </div>
+            </div>
+
+            <!-- CATÁLOGO -->
+            <div class="card budget-card">
+              <h3 class="card__title">Catálogo</h3>
+
+              <div class="filters filters--tight">
+                <div class="filters__group">
+                  <label for="catalogSearch">Buscar producto...</label>
+                  <input id="catalogSearch" type="text" placeholder="Ej: Dubai, Zen Ergo..." />
+                </div>
+                <div class="filters__group">
+                  <label for="catalogCategory">Categoría</label>
+                  <select id="catalogCategory">
+                    <option>Todas las categorías</option>
+                    <option>Estaciones</option>
+                    <option>Sillas</option>
+                    <option>Armarios</option>
+                  </select>
+                </div>
+                <div class="filters__group">
+                  <label for="catalogSort">Ordenar por</label>
+                  <select id="catalogSort">
+                    <option>Sin ordenar</option>
+                    <option>Precio ascendente</option>
+                    <option>Precio descendente</option>
+                  </select>
+                </div>
+                <div class="filters__group filters__group--button">
+                  <label>&nbsp;</label>
+                  <button class="btn btn--ghost btn--small">Reiniciar</button>
+                </div>
+              </div>
+
+              <div class="quote-products-grid">
+                <!-- EJEMPLO 1 -->
+                <article class="quote-product">
+                  <div class="quote-product__media">
+                    <video
+                      class="quote-product__video js-product-video"
+                      muted
+                      loop
+                      preload="metadata"
+                      poster="assets/product_images/dubai_negro.webp"
+                    >
+                      <source src="assets/videos/dubai_negro.mp4" type="video/mp4" />
+                    </video>
+                    <div class="quote-product__overlay">
+                      <span class="quote-product__overlay-label">Ver vista</span>
+                    </div>
+                  </div>
+                  <div class="quote-product__body">
+                    <h4 class="quote-product__title">Estación DUBAI negra</h4>
+                    <p class="quote-product__meta">Estaciones · Código DUBAI-NEGRO</p>
+                    <p class="quote-product__price">$ 350.000</p>
+                    <button class="btn btn--ghost btn--small">Agregar</button>
+                  </div>
+                </article>
+
+                <!-- EJEMPLO 2 -->
+                <article class="quote-product">
+                  <div class="quote-product__media">
+                    <video
+                      class="quote-product__video js-product-video"
+                      muted
+                      loop
+                      preload="metadata"
+                      poster="assets/product_images/zen_ergo_negro.webp"
+                    >
+                      <source src="assets/videos/zen_ergo_negro.mp4" type="video/mp4" />
+                    </video>
+                    <div class="quote-product__overlay">
+                      <span class="quote-product__overlay-label">Ver vista</span>
+                    </div>
+                  </div>
+                  <div class="quote-product__body">
+                    <h4 class="quote-product__title">Silla Zen Ergo</h4>
+                    <p class="quote-product__meta">Sillas · Código ZEN-ERGO</p>
+                    <p class="quote-product__price">$ 120.000</p>
+                    <button class="btn btn--ghost btn--small">Agregar</button>
+                  </div>
+                </article>
+
+                <!-- EJEMPLO 3 -->
+                <article class="quote-product">
+                  <div class="quote-product__media">
+                    <video
+                      class="quote-product__video js-product-video"
+                      muted
+                      loop
+                      preload="metadata"
+                      poster="assets/product_images/armario_bajo_puerta_batiente.webp"
+                    >
+                      <source src="assets/videos/ram.mp4" type="video/mp4" />
+                    </video>
+                    <div class="quote-product__overlay">
+                      <span class="quote-product__overlay-label">Ver vista</span>
+                    </div>
+                  </div>
+                  <div class="quote-product__body">
+                    <h4 class="quote-product__title">Armario bajo puerta batiente</h4>
+                    <p class="quote-product__meta">Armarios · Código ARM-BAJO</p>
+                    <p class="quote-product__price">$ 95.000</p>
+                    <button class="btn btn--ghost btn--small">Agregar</button>
+                  </div>
+                </article>
+              </div>
+              <p class="card__hint">
+                Consejo: podés reemplazar los videos y posters por tus archivos reales (MP4 / WEBP).
+              </p>
+            </div>
+
+            <!-- PRESUPUESTO GENERADO -->
+            <div class="card budget-card">
+              <h3 class="card__title">Presupuesto generado</h3>
+
+              <div class="table-wrapper">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Producto</th>
+                      <th>Precio unidad</th>
+                      <th>Unidades</th>
+                      <th>Vista</th>
+                      <th>Subtotal</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Estación DUBAI negra</td>
+                      <td>$ 350.000</td>
+                      <td>1</td>
+                      <td>Video</td>
+                      <td>$ 350.000</td>
+                      <td>
+                        <button class="btn btn--ghost btn--small">Editar</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="budget-summary">
+                <div class="budget-summary__left">
+                  <span>Subtotal: <strong>$ 350.000</strong></span>
+                  <span>Descuento: <strong>$ 0 (0%)</strong></span>
+                  <span>Envío (ARS): <strong>$ 0</strong></span>
+                  <span>IVA (21%): <strong>$ 73.500</strong></span>
+                </div>
+                <div class="budget-summary__right">
+                  <span class="budget-summary__total-label">Total Final:</span>
+                  <span class="budget-summary__total-value">$ 423.500</span>
+                </div>
+              </div>
+
+              <div class="budget-actions">
+                <button class="btn btn--primary">Descargar PDF</button>
+                <button class="btn btn--ghost">Ver carrito 🛒</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- REPORTES -->
+        <section class="section" id="section-reportes">
+          <h2 class="section__title">Reportes</h2>
+          <p class="section__subtitle">
+            Analizá el rendimiento de tus presupuestos y ventas.
+          </p>
+
+          <div class="card">
+            <h3 class="card__title">Resumen mensual</h3>
+            <p>Acá podés luego integrar gráficos (por ejemplo, con alguna librería JS) o tablas más detalladas.</p>
+          </div>
+        </section>
+
+        <!-- PLATAFORMA EMBEBIDA -->
+        <section class="section" id="section-plataforma">
+          <h2 class="section__title">Plataforma</h2>
+          <p class="section__subtitle">
+            Acá se embebe la plataforma externa (tipo Appventry).
+          </p>
+
+          <div class="card">
+            <div class="card__header">
+              <div>
+                <h3 class="card__title">Plataforma integrada</h3>
+                <p class="card__hint">
+                  Reemplazá la URL de ejemplo por la que te den ellos (iframe, etc.).
+                </p>
+              </div>
+              <button
+                class="btn btn--ghost btn--small"
+                id="toggleEmbedFull"
+                data-fullscreen="off"
+              >
+                Pantalla completa
+              </button>
+            </div>
+
+            <div class="embed-wrapper">
+              <!-- EJEMPLO de iframe: cambiá la URL por la real -->
+              <iframe
+                src="about:blank"
+                frameborder="0"
+                class="embed-frame"
+                id="platformFrame"
+              ></iframe>
+
+              <!-- Si todavía no tenés la URL real, podés comentar el iframe y usar este placeholder -->
+              <!--
+              <div class="embed-placeholder">
+                Plataforma embebida
+                <span>(aquí va tu iframe / app)</span>
+              </div>
+              -->
+            </div>
+          </div>
+        </section>
+
+        <!-- CONFIGURACION -->
+        <section class="section" id="section-configuracion">
+          <h2 class="section__title">Configuración</h2>
+          <p class="section__subtitle">
+            Ajustes generales del sistema.
+          </p>
+
+          <div class="card">
+            <h3 class="card__title">Datos de la empresa</h3>
+            <form class="form">
+              <div class="form__group">
+                <label for="empresa">Razón social</label>
+                <input id="empresa" type="text" value="Farber Muebles SRL" />
+              </div>
+              <div class="form__group">
+                <label for="cuit">CUIT</label>
+                <input id="cuit" type="text" value="30-71541303-1" />
+              </div>
+              <div class="form__group">
+                <label for="banco">Banco</label>
+                <input id="banco" type="text" value="Banco Galicia" />
+              </div>
+              <div class="form__group">
+                <label for="cbu">CBU</label>
+                <input id="cbu" type="text" value="00700054-20000023768815" />
+              </div>
+
+              <button type="button" class="btn btn--primary">
+                Guardar cambios
+              </button>
+            </form>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL GENÉRICO -->
+  <div class="modal" id="genericModal" aria-hidden="true">
+    <div class="modal__backdrop js-modal-close" data-close="backdrop"></div>
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal__header">
+        <h3 class="modal__title" id="modalTitle">Detalle</h3>
+        <button class="modal__close js-modal-close" aria-label="Cerrar">×</button>
+      </div>
+      <div class="modal__body" id="modalBody">
+        Contenido de ejemplo...
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--ghost js-modal-close">Cerrar</button>
+        <button class="btn btn--primary">Acción</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
