@@ -19,6 +19,7 @@
 
   // Historial filters DOM
   let historySearchInput,
+    historyClientSelect,
     historyStatusSelect,
     historyDateFromInput,
     historyDateToInput,
@@ -39,6 +40,7 @@
 
     return {
       id: Core.generateId("bud"),
+      clientId: null,
       clientName: "",
       date: dateStr,
       discountPercent: 0,
@@ -103,7 +105,19 @@
 
   function readFormIntoBudget() {
     const b = ensureCurrentBudget();
-    if (budgetClientInput) b.clientName = budgetClientInput.value.trim();
+
+    if (budgetClientInput) {
+      b.clientName = budgetClientInput.value.trim();
+
+      // Vinculamos con un cliente si coincide el nombre
+      const clients = window.Clients?.load?.() || [];
+      const normName = Core.normalizarTexto(b.clientName);
+      const found = clients.find(
+        (c) => Core.normalizarTexto(c.name) === normName
+      );
+      b.clientId = found ? found.id : null;
+    }
+
     if (budgetDateInput) b.date = budgetDateInput.value || b.date;
     if (budgetNotesInput) b.notes = budgetNotesInput.value.trim();
     if (budgetCurrencySelect) b.currency = budgetCurrencySelect.value;
@@ -371,6 +385,9 @@
     const statusFilter = historyStatusSelect
       ? historyStatusSelect.value
       : "";
+    const clientFilter = historyClientSelect
+      ? historyClientSelect.value
+      : "";
     const from = historyDateFromInput?.value || "";
     const to = historyDateToInput?.value || "";
 
@@ -381,6 +398,10 @@
         );
         return base.includes(text);
       });
+    }
+
+    if (clientFilter) {
+      res = res.filter((b) => (b.clientId || "") === clientFilter);
     }
 
     if (statusFilter) {
@@ -531,8 +552,36 @@
     });
   }
 
+  function populateHistoryClientFilter() {
+    historyClientSelect = document.getElementById("historyClientFilter");
+    if (!historyClientSelect) return;
+
+    const clients = window.Clients?.load?.() || [];
+
+    // Guardamos valor actual para no resetear al usuario
+    const currentVal = historyClientSelect.value || "";
+
+    historyClientSelect.innerHTML =
+      `<option value="">Todos</option>` +
+      clients
+        .map(
+          (c) =>
+            `<option value="${c.id}">${c.name}</option>`
+        )
+        .join("");
+
+    // restaurar selección si sigue existiendo
+    if (
+      currentVal &&
+      clients.some((c) => c.id === currentVal)
+    ) {
+      historyClientSelect.value = currentVal;
+    }
+  }
+
   function initHistoryFilters() {
     historySearchInput = document.getElementById("historySearch");
+    historyClientSelect = document.getElementById("historyClientFilter");
     historyStatusSelect = document.getElementById("historyStatusFilter");
     historyDateFromInput = document.getElementById("historyDateFrom");
     historyDateToInput = document.getElementById("historyDateTo");
@@ -540,6 +589,9 @@
 
     if (historySearchInput) {
       historySearchInput.addEventListener("input", updateSavedTables);
+    }
+    if (historyClientSelect) {
+      historyClientSelect.addEventListener("change", updateSavedTables);
     }
     if (historyStatusSelect) {
       historyStatusSelect.addEventListener("change", updateSavedTables);
@@ -553,12 +605,15 @@
     if (historyResetBtn) {
       historyResetBtn.addEventListener("click", () => {
         if (historySearchInput) historySearchInput.value = "";
+        if (historyClientSelect) historyClientSelect.value = "";
         if (historyStatusSelect) historyStatusSelect.value = "";
         if (historyDateFromInput) historyDateFromInput.value = "";
         if (historyDateToInput) historyDateToInput.value = "";
         updateSavedTables();
       });
     }
+
+    populateHistoryClientFilter();
   }
 
   function init() {
@@ -636,10 +691,17 @@
     updateDashboardCounts();
   }
 
+  // Esta función la usan Clientes para refrescar el select de cliente en Historial
+  function refreshHistoryClientFilter() {
+    populateHistoryClientFilter();
+    updateSavedTables();
+  }
+
   window.Budgets = {
     init,
     addProductById,
     applyConfig,
     getTodayCount,
+    refreshHistoryClientFilter,
   };
 })();

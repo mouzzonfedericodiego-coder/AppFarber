@@ -152,63 +152,99 @@
 
         <!-- CLIENTES -->
         <section class="section" id="section-clientes">
-          <h2 class="section__title">Clientes</h2>
-          <p class="section__subtitle">
-            Alta rápida de clientes y base almacenada en este navegador.
-          </p>
+  <h2 class="section__title">Clientes</h2>
+  <p class="section__subtitle">
+    Administrá tu base de clientes. Los datos se usan en los presupuestos y el historial.
+  </p>
 
-          <div class="grid grid--two">
-            <div class="card">
-              <h3 class="card__title">Nuevo cliente</h3>
-              <form id="clientForm" class="form">
-                <div class="form__group">
-                  <label for="clientName">Nombre / Razón social</label>
-                  <input id="clientName" type="text" required />
-                </div>
-                <div class="form__group">
-                  <label for="clientCuit">CUIT</label>
-                  <input id="clientCuit" type="text" />
-                </div>
-                <div class="form__group">
-                  <label for="clientContact">Contacto</label>
-                  <input id="clientContact" type="text" />
-                </div>
-                <div class="form__group">
-                  <label for="clientPhone">Teléfono</label>
-                  <input id="clientPhone" type="text" />
-                </div>
-                <button type="submit" class="btn btn--primary">
-                  Guardar cliente
-                </button>
-              </form>
-              <p class="card__hint">
-                Los clientes se guardan localmente en este navegador.
-              </p>
-            </div>
+  <div class="grid grid--two">
+    <!-- FORMULARIO -->
+    <div class="card">
+      <h3 class="card__title">Ficha de cliente</h3>
+      <p class="card__hint">
+        Creá o editá clientes. Se guardan en este navegador.
+      </p>
 
-            <div class="card card--table">
-              <div class="card__header">
-                <h3 class="card__title">Listado de clientes</h3>
-              </div>
-              <div class="table-wrapper">
-                <table class="table" id="clientsTable">
-                  <thead>
-                    <tr>
-                      <th>Nombre</th>
-                      <th>CUIT</th>
-                      <th>Contacto</th>
-                      <th>Teléfono</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <!-- filas desde JS -->
-                  </tbody>
-                </table>
-              </div>
-            </div>
+      <form id="clientForm" class="form">
+        <input type="hidden" id="clientId" />
+
+        <div class="form__group">
+          <label for="clientName">Nombre / Razón social</label>
+          <input id="clientName" type="text" required />
+        </div>
+
+        <div class="form__group">
+          <label for="clientContact">Contacto</label>
+          <input id="clientContact" type="text" placeholder="Nombre de la persona" />
+        </div>
+
+        <div class="grid grid--two">
+          <div class="form__group">
+            <label for="clientEmail">Correo electrónico</label>
+            <input id="clientEmail" type="email" placeholder="cliente@ejemplo.com" />
           </div>
-        </section>
+          <div class="form__group">
+            <label for="clientPhone">Teléfono</label>
+            <input id="clientPhone" type="tel" placeholder="+54 11 ..." />
+          </div>
+        </div>
+
+        <div class="form__group">
+          <label for="clientNotes">Notas internas</label>
+          <textarea id="clientNotes" rows="2" placeholder="Datos relevantes del cliente, horarios, referencias, etc."></textarea>
+        </div>
+
+        <div style="display:flex;gap:0.5rem;margin-top:0.4rem;">
+          <button type="submit" class="btn btn--primary">Guardar cliente</button>
+          <button type="button" class="btn btn--ghost" id="clientFormReset">
+            Limpiar formulario
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- LISTADO -->
+    <div class="card card--table">
+      <div class="card__header">
+        <div>
+          <h3 class="card__title">Listado de clientes</h3>
+          <p class="card__hint">
+            Vista general de tu base de clientes y sus presupuestos asociados.
+          </p>
+        </div>
+
+        <div class="form__group" style="min-width:220px;">
+          <label for="clientsSearch" style="font-size:0.75rem;">Buscar</label>
+          <input
+            id="clientsSearch"
+            type="text"
+            class="input"
+            placeholder="Nombre, contacto, mail..."
+          />
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="table table--compact" id="clientsTable">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Contacto</th>
+              <th>Mail</th>
+              <th>Teléfono</th>
+              <th>Presupuestos</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- filas generadas por JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
 
         <!-- PRODUCTOS -->
         <section class="section" id="section-productos">
@@ -566,6 +602,15 @@
           placeholder="Cliente o # de presupuesto"
         />
       </div>
+
+        <div class="form__group">
+    <label for="historyClientFilter">Cliente</label>
+    <select id="historyClientFilter" class="select">
+      <option value="">Todos</option>
+      <!-- opciones generadas por JS -->
+    </select>
+  </div>
+
 
       <div class="form__group">
         <label for="historyStatusFilter">Estado</label>

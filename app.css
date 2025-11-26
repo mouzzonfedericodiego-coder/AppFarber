@@ -1113,3 +1113,74 @@ body.theme-dark .form__group select {
   background: rgba(248, 113, 113, 0.95);
   color: #f9fafb;
 }
+
+/* === PACK D: impresión amigable para PDF === */
+
+/* Márgenes de la hoja al imprimir */
+@page {
+  margin: 12mm;
+}
+
+@media print {
+  :root {
+    --color-bg: #ffffff;
+    --color-bg-elevated: #ffffff;
+    --color-text: #111827;
+  }
+
+  html,
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  /* Ocultamos navegación y secciones que no son el presupuesto */
+  .sidebar,
+  .topbar,
+  .toast-container,
+  #section-dashboard,
+  #section-clientes,
+  #section-productos,
+  #section-historial,
+  #section-plataforma,
+  #section-configuracion {
+    display: none !important;
+  }
+
+  /* Dejamos solo Presupuestos ocupando la hoja */
+  #section-presupuestos {
+    display: block !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  .layout,
+  .content,
+  .section,
+  .card {
+    box-shadow: none !important;
+    background: #ffffff !important;
+  }
+
+  /* El card principal del presupuesto ocupa todo el ancho imprimible */
+  #section-presupuestos .card {
+    border-radius: 0;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  /* Ocultamos botones e elementos interactivos al imprimir */
+  .btn,
+  .theme-toggle,
+  .quote-catalog__filters,
+  .quote-catalog__toolbar,
+  #cartButton {
+    display: none !important;
+  }
+
+  /* Mesas más “planas” para impresión */
+  .table {
+    box-shadow: none !important;
+    background: #ffffff !important;
+  }
+}
