@@ -1,6 +1,7 @@
 // budgets.js
 (function () {
   const STORAGE_KEY = "budgets";
+  const STATUS_OPTIONS = ["Borrador", "En revisión", "Aprobado", "Perdido"];
 
   let currentBudget = null;
   let config = null;
@@ -15,6 +16,13 @@
     budgetCurrencySelect,
     budgetPaymentSelect,
     cartBadge;
+
+  // Historial filters DOM
+  let historySearchInput,
+    historyStatusSelect,
+    historyDateFromInput,
+    historyDateToInput,
+    historyResetBtn;
 
   function loadBudgets() {
     return Core.readStorage(STORAGE_KEY, []);
@@ -142,7 +150,8 @@
   }
 
   function renderBudgetTable() {
-    budgetTableBody = budgetTableBody || document.getElementById("budgetItemsBody");
+    budgetTableBody =
+      budgetTableBody || document.getElementById("budgetItemsBody");
     if (!budgetTableBody) return;
 
     readFormIntoBudget();
@@ -253,11 +262,14 @@
     if (budgetClientInput) budgetClientInput.value = "";
     if (budgetDateInput) budgetDateInput.value = currentBudget.date;
     if (budgetNotesInput) budgetNotesInput.value = "";
-    if (budgetCurrencySelect) budgetCurrencySelect.value = currentBudget.currency;
+    if (budgetCurrencySelect)
+      budgetCurrencySelect.value = currentBudget.currency;
     if (budgetPaymentSelect)
       budgetPaymentSelect.value = currentBudget.paymentMethod;
-    if (budgetDiscountInput) budgetDiscountInput.value = currentBudget.discountPercent;
-    if (budgetShippingInput) budgetShippingInput.value = currentBudget.shipping;
+    if (budgetDiscountInput)
+      budgetDiscountInput.value = currentBudget.discountPercent;
+    if (budgetShippingInput)
+      budgetShippingInput.value = currentBudget.shipping;
     renderBudgetTable();
     Core.showToast("Presupuesto limpiado.", "info");
   }
@@ -275,6 +287,8 @@
     const totals = calcTotals();
     b.total = totals.totalFinal;
 
+    if (!b.status) b.status = "Borrador";
+
     if (idx >= 0) {
       list[idx] = { ...b };
     } else {
@@ -291,60 +305,184 @@
     clearBudget();
   }
 
-  function updateSavedTables() {
-    const budgets = loadBudgets().slice().sort((a, b) =>
-      a.date < b.date ? 1 : -1
-    );
+  // ----- RENDERIZADOS AUXILIARES -----
+  function buildStatusChip(status) {
+    const st = status || "Borrador";
+    const key =
+      st === "Aprobado"
+        ? "aprobado"
+        : st === "En revisión"
+        ? "revision"
+        : st === "Perdido"
+        ? "perdido"
+        : "borrador";
+    return `<span class="status-chip status-chip--${key}">${st}</span>`;
+  }
 
+  function renderSavedBudgetsTable(allBudgets) {
     const savedTbody = document.querySelector("#savedBudgetsTable tbody");
-    if (savedTbody) {
-      savedTbody.innerHTML = "";
-      budgets.slice(0, 50).forEach((b, index) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
+    if (!savedTbody) return;
+
+    savedTbody.innerHTML = "";
+    allBudgets.slice(0, 50).forEach((b, index) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
           <td>${index + 1}</td>
           <td>${b.clientName}</td>
           <td>${b.date}</td>
           <td>${Core.formatMoney(b.total || 0)}</td>
-          <td></td>
+          <td>
+            <button class="btn btn--ghost btn--small js-duplicate-budget" data-id="${b.id}">
+              Duplicar
+            </button>
+          </td>
         `;
-        savedTbody.appendChild(tr);
-      });
-    }
+      savedTbody.appendChild(tr);
+    });
 
+    attachDuplicateHandlers(savedTbody);
+  }
+
+  function renderDashboardBudgetsTable(allBudgets) {
     const dashTbody = document.querySelector(
       "#dashboardLastBudgetsTable tbody"
     );
-    if (dashTbody) {
-      dashTbody.innerHTML = "";
-      budgets.slice(0, 5).forEach((b, index) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
+    if (!dashTbody) return;
+
+    dashTbody.innerHTML = "";
+    allBudgets.slice(0, 5).forEach((b, index) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
           <td>${index + 1}</td>
           <td>${b.clientName}</td>
           <td>${b.date}</td>
           <td>${Core.formatMoney(b.total || 0)}</td>
-          <td>${b.status || "Borrador"}</td>
+          <td>${buildStatusChip(b.status)}</td>
         `;
-        dashTbody.appendChild(tr);
+      dashTbody.appendChild(tr);
+    });
+  }
+
+  function applyHistoryFilters(allBudgets) {
+    let res = allBudgets;
+    const text = historySearchInput
+      ? Core.normalizarTexto(historySearchInput.value || "")
+      : "";
+    const statusFilter = historyStatusSelect
+      ? historyStatusSelect.value
+      : "";
+    const from = historyDateFromInput?.value || "";
+    const to = historyDateToInput?.value || "";
+
+    if (text) {
+      res = res.filter((b, index) => {
+        const base = Core.normalizarTexto(
+          `${b.clientName} ${b.id} ${index + 1}`
+        );
+        return base.includes(text);
       });
     }
 
+    if (statusFilter) {
+      res = res.filter((b) => (b.status || "Borrador") === statusFilter);
+    }
+
+    if (from) {
+      res = res.filter((b) => (b.date || "") >= from);
+    }
+    if (to) {
+      res = res.filter((b) => (b.date || "") <= to);
+    }
+
+    return res;
+  }
+
+  function renderHistoryBudgetsTable(filteredBudgets) {
     const histTbody = document.querySelector("#historyBudgetsTable tbody");
-    if (histTbody) {
-      histTbody.innerHTML = "";
-      budgets.forEach((b, index) => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
+    if (!histTbody) return;
+
+    histTbody.innerHTML = "";
+    filteredBudgets.forEach((b, index) => {
+      const status = b.status || "Borrador";
+      const statusOptions = STATUS_OPTIONS.map(
+        (s) =>
+          `<option value="${s}" ${
+            s === status ? "selected" : ""
+          }>${s}</option>`
+      ).join("");
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
           <td>${index + 1}</td>
           <td>${b.clientName}</td>
           <td>${b.date}</td>
           <td>${Core.formatMoney(b.total || 0)}</td>
-          <td>${b.status || "Borrador"}</td>
+          <td>${buildStatusChip(status)}</td>
+          <td>
+            <select class="status-select" data-id="${b.id}">
+              ${statusOptions}
+            </select>
+            <button class="btn btn--ghost btn--small js-duplicate-budget" data-id="${b.id}">
+              Duplicar
+            </button>
+          </td>
         `;
-        histTbody.appendChild(tr);
+      histTbody.appendChild(tr);
+    });
+
+    // Cambio de estado
+    histTbody.querySelectorAll(".status-select").forEach((select) => {
+      select.addEventListener("change", () => {
+        const id = select.getAttribute("data-id");
+        const newStatus = select.value;
+        const list = loadBudgets();
+        const idx = list.findIndex((b) => b.id === id);
+        if (idx >= 0) {
+          list[idx].status = newStatus;
+          saveBudgets(list);
+          updateSavedTables();
+          updateDashboardCounts();
+          Core.showToast("Estado actualizado.", "success");
+        }
       });
-    }
+    });
+
+    attachDuplicateHandlers(histTbody);
+  }
+
+  function attachDuplicateHandlers(scope) {
+    scope.querySelectorAll(".js-duplicate-budget").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-id");
+        const list = loadBudgets();
+        const original = list.find((b) => b.id === id);
+        if (!original) return;
+
+        const duplicated = {
+          ...original,
+          id: Core.generateId("bud"),
+          status: "Borrador",
+          date: new Date().toISOString().slice(0, 10),
+        };
+        list.push(duplicated);
+        saveBudgets(list);
+        updateSavedTables();
+        updateDashboardCounts();
+        Core.showToast("Presupuesto duplicado.", "success");
+      });
+    });
+  }
+
+  function updateSavedTables() {
+    const budgets = loadBudgets()
+      .slice()
+      .sort((a, b) => (a.date < b.date ? 1 : -1));
+
+    renderSavedBudgetsTable(budgets);
+    renderDashboardBudgetsTable(budgets);
+
+    const filtered = applyHistoryFilters(budgets);
+    renderHistoryBudgetsTable(filtered);
   }
 
   function updateDashboardCounts() {
@@ -393,6 +531,36 @@
     });
   }
 
+  function initHistoryFilters() {
+    historySearchInput = document.getElementById("historySearch");
+    historyStatusSelect = document.getElementById("historyStatusFilter");
+    historyDateFromInput = document.getElementById("historyDateFrom");
+    historyDateToInput = document.getElementById("historyDateTo");
+    historyResetBtn = document.getElementById("historyResetFilters");
+
+    if (historySearchInput) {
+      historySearchInput.addEventListener("input", updateSavedTables);
+    }
+    if (historyStatusSelect) {
+      historyStatusSelect.addEventListener("change", updateSavedTables);
+    }
+    if (historyDateFromInput) {
+      historyDateFromInput.addEventListener("change", updateSavedTables);
+    }
+    if (historyDateToInput) {
+      historyDateToInput.addEventListener("change", updateSavedTables);
+    }
+    if (historyResetBtn) {
+      historyResetBtn.addEventListener("click", () => {
+        if (historySearchInput) historySearchInput.value = "";
+        if (historyStatusSelect) historyStatusSelect.value = "";
+        if (historyDateFromInput) historyDateFromInput.value = "";
+        if (historyDateToInput) historyDateToInput.value = "";
+        updateSavedTables();
+      });
+    }
+  }
+
   function init() {
     config = Config.load();
 
@@ -428,7 +596,9 @@
       budgetCurrencySelect.addEventListener("change", renderBudgetTable);
     }
     if (budgetPaymentSelect) {
-      budgetPaymentSelect.addEventListener("change", () => readFormIntoBudget());
+      budgetPaymentSelect.addEventListener("change", () =>
+        readFormIntoBudget()
+      );
     }
 
     const saveBtn = document.getElementById("saveBudgetBtn");
@@ -459,6 +629,7 @@
     }
 
     initCartButtonScroll();
+    initHistoryFilters();
 
     renderBudgetTable();
     updateSavedTables();

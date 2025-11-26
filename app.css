@@ -1028,3 +1028,58 @@ body.theme-dark .form__group select {
     padding: 1rem;
   }
 }
+
+
+/* === PACK A: estados de presupuesto + filtros historial === */
+
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.status-chip--borrador {
+  background: #f1f3f5;
+  color: #495057;
+}
+
+.status-chip--revision {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-chip--aprobado {
+  background: #d1f2d6;
+  color: #126b35;
+}
+
+.status-chip--perdido {
+  background: #fde2e2;
+  color: #b02a37;
+}
+
+.status-select {
+  min-width: 130px;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  border: 1px solid #dee2e6;
+  background-color: #fff;
+}
+
+.history-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.75rem;
+  margin: 0 1.25rem 0.75rem 1.25rem;
+}
+
+.history-filters__btn {
+  align-self: flex-end;
+}

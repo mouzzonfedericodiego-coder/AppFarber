@@ -436,34 +436,89 @@
 
         <!-- HISTORIAL -->
         <section class="section" id="section-historial">
-          <h2 class="section__title">Historial de presupuestos</h2>
-          <p class="section__subtitle">
-            Listado completo de los presupuestos guardados en este navegador.
-          </p>
+  <div class="section__header">
+    <div>
+      <h2 class="section__title">Historial de presupuestos</h2>
+      <p class="section__subtitle">
+        Listado completo de los presupuestos generados desde la plataforma.
+      </p>
+    </div>
+  </div>
 
-          <div class="card card--table">
-            <div class="card__header">
-              <h3 class="card__title">Presupuestos</h3>
-            </div>
+  <div class="card card--table">
+    <div class="card__header">
+      <div>
+        <h3 class="card__title">Presupuestos guardados</h3>
+        <p class="card__subtitle">
+          Buscá, filtrá y cambiá el estado de tus presupuestos.
+        </p>
+      </div>
+    </div>
 
-            <div class="table-wrapper">
-              <table class="table" id="historyBudgetsTable">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Cliente</th>
-                    <th>Fecha</th>
-                    <th>Total</th>
-                    <th>Estado</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <!-- desde JS -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
+    <!-- Filtros del historial -->
+    <div class="history-filters">
+      <div class="form__group">
+        <label for="historySearch">Buscar</label>
+        <input
+          id="historySearch"
+          type="text"
+          class="input"
+          placeholder="Cliente o # de presupuesto"
+        />
+      </div>
+
+      <div class="form__group">
+        <label for="historyStatusFilter">Estado</label>
+        <select id="historyStatusFilter" class="select">
+          <option value="">Todos</option>
+          <option value="Borrador">Borrador</option>
+          <option value="En revisión">En revisión</option>
+          <option value="Aprobado">Aprobado</option>
+          <option value="Perdido">Perdido</option>
+        </select>
+      </div>
+
+      <div class="form__group">
+        <label for="historyDateFrom">Desde</label>
+        <input id="historyDateFrom" type="date" class="input" />
+      </div>
+
+      <div class="form__group">
+        <label for="historyDateTo">Hasta</label>
+        <input id="historyDateTo" type="date" class="input" />
+      </div>
+
+      <div class="form__group history-filters__btn">
+        <label>&nbsp;</label>
+        <button
+          type="button"
+          class="btn btn--ghost btn--small"
+          id="historyResetFilters"
+        >
+          Limpiar filtros
+        </button>
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="table table--hover" id="historyBudgetsTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Se completa por JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
 
         <!-- PLATAFORMA -->
         <section class="section" id="section-plataforma">
