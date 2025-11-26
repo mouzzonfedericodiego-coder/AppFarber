@@ -212,21 +212,121 @@
 
         <!-- PRODUCTOS -->
         <section class="section" id="section-productos">
-          <h2 class="section__title">Productos</h2>
-          <p class="section__subtitle">
-            Catálogo administrativo central (usa la misma base que el generador de presupuestos).
-          </p>
+  <h2 class="section__title">Productos</h2>
+  <p class="section__subtitle">
+    Catálogo administrativo central. Los productos que cargues acá se usan en el generador de presupuestos.
+  </p>
 
-          <div class="card">
-            <div class="card__header">
-              <h3 class="card__title">Catálogo de productos</h3>
-            </div>
+  <div class="grid grid--two">
+    <!-- EDITOR DE PRODUCTO -->
+    <div class="card">
+      <h3 class="card__title">Editor de producto</h3>
+      <p class="card__hint">
+        Creá nuevos productos o editá los que ya cargaste. Se guardan en este navegador.
+      </p>
 
-            <div class="products-grid" id="productsGrid">
-              <!-- Se rellena desde JS -->
-            </div>
+      <form id="productForm" class="form">
+        <!-- campo oculto para saber si estamos editando -->
+        <input type="hidden" id="prodId" />
+
+        <div class="form__group">
+          <label for="prodName">Nombre del producto</label>
+          <input id="prodName" type="text" required />
+        </div>
+
+        <div class="form__group">
+          <label for="prodCode">Código interno</label>
+          <input id="prodCode" type="text" />
+        </div>
+
+        <div class="grid grid--two">
+          <div class="form__group">
+            <label for="prodCategory">Categoría</label>
+            <select id="prodCategory">
+              <option value="Estaciones">Estaciones</option>
+              <option value="Sillas">Sillas</option>
+              <option value="Armarios">Armarios</option>
+              <option value="Otro">Otro</option>
+            </select>
           </div>
-        </section>
+          <div class="form__group">
+            <label for="prodPrice">Precio base (ARS)</label>
+            <input id="prodPrice" type="number" min="0" required />
+          </div>
+        </div>
+
+        <div class="form__group">
+          <label for="prodPoster">Imagen (poster)</label>
+          <input
+            id="prodPoster"
+            type="text"
+            placeholder="Ruta opcional. Ej: assets/product_images/mi_silla.webp"
+          />
+        </div>
+
+        <div class="form__group">
+          <label for="prodVideo">Video</label>
+          <input
+            id="prodVideo"
+            type="text"
+            placeholder="Ruta opcional. Ej: assets/videos/mi_silla.mp4"
+          />
+        </div>
+
+        <div class="form__group" style="flex-direction:row;align-items:center;gap:0.5rem;">
+          <input id="prodHot" type="checkbox" />
+          <label for="prodHot" style="margin:0;">Marcar como HOT / Destacado</label>
+        </div>
+
+        <div style="display:flex;gap:0.5rem;margin-top:0.4rem;">
+          <button type="submit" class="btn btn--primary">Guardar producto</button>
+          <button type="button" class="btn btn--ghost" id="productFormReset">
+            Limpiar formulario
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- LISTADO ADMINISTRABLE -->
+    <div class="card card--table">
+      <div class="card__header">
+        <h3 class="card__title">Listado de productos</h3>
+      </div>
+
+      <div class="table-wrapper">
+        <table class="table table--compact" id="productsAdminTable">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Categoría</th>
+              <th>Precio</th>
+              <th>HOT</th>
+              <th>Origen</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- filas generadas por JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- VISTA RESUMEN EN TARJETAS -->
+  <div class="card">
+    <div class="card__header">
+      <h3 class="card__title">Vista en tarjetas</h3>
+      <p class="card__hint">
+        Vista rápida de todo el catálogo actual (base + productos creados por vos).
+      </p>
+    </div>
+    <div class="products-grid" id="productsGrid">
+      <!-- tarjetas generadas por JS -->
+    </div>
+  </div>
+</section>
+
 
         <!-- PRESUPUESTOS -->
         <section class="section" id="section-presupuestos">

@@ -1083,3 +1083,33 @@ body.theme-dark .form__group select {
 .history-filters__btn {
   align-self: flex-end;
 }
+
+/* === PACK B: administración de productos === */
+
+.products-admin-origin {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.badge-hot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  background: var(--color-accent-soft);
+  color: #7f1d1d;
+}
+
+.quote-product__badge-hot {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  background: rgba(248, 113, 113, 0.95);
+  color: #f9fafb;
+}

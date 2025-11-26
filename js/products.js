@@ -1,6 +1,7 @@
 // products.js
 (function () {
-  const PRODUCT_CATALOG = [
+  // -------- Catálogo base (hardcodeado) --------
+  const BASE_PRODUCTS = [
     {
       id: "dubai-negro",
       name: "Estación DUBAI negra",
@@ -9,6 +10,8 @@
       price: 350000,
       poster: "assets/product_images/dubai_negro.webp",
       video: "assets/videos/dubai_negro.mp4",
+      hot: true,
+      origin: "base",
     },
     {
       id: "dubai-blanco",
@@ -18,6 +21,8 @@
       price: 360000,
       poster: "assets/product_images/dubai_negro.webp",
       video: "assets/videos/dubai_negro.mp4",
+      hot: false,
+      origin: "base",
     },
     {
       id: "zen-ergo",
@@ -27,6 +32,8 @@
       price: 120000,
       poster: "assets/product_images/zen_ergo_negro.webp",
       video: "assets/videos/zen_ergo_negro.mp4",
+      hot: true,
+      origin: "base",
     },
     {
       id: "silla-nordica",
@@ -36,6 +43,8 @@
       price: 110000,
       poster: "assets/product_images/zen_ergo_negro.webp",
       video: "assets/videos/zen_ergo_negro.mp4",
+      hot: false,
+      origin: "base",
     },
     {
       id: "armario-bajo",
@@ -45,6 +54,8 @@
       price: 95000,
       poster: "assets/product_images/armario_bajo_puerta_batiente.webp",
       video: "assets/videos/ram.mp4",
+      hot: false,
+      origin: "base",
     },
     {
       id: "biblioteca-baja",
@@ -54,25 +65,47 @@
       price: 98000,
       poster: "assets/product_images/armario_bajo_puerta_batiente.webp",
       video: "assets/videos/ram.mp4",
+      hot: false,
+      origin: "base",
     },
   ];
 
+  const STORAGE_KEY = "productsCustom";
+
+  // -------- Storage de productos creados por el usuario --------
+  function loadCustomProducts() {
+    return Core.readStorage(STORAGE_KEY, []);
+  }
+
+  function saveCustomProducts(list) {
+    Core.writeStorage(STORAGE_KEY, list);
+  }
+
+  // -------- API pública --------
   function getAll() {
-    return [...PRODUCT_CATALOG];
+    const custom = loadCustomProducts();
+    return [...BASE_PRODUCTS, ...custom];
   }
 
   function getById(id) {
-    return PRODUCT_CATALOG.find((p) => p.id === id) || null;
+    return getAll().find((p) => p.id === id) || null;
   }
 
+  // -------- RENDER: tarjetas (vista rápida) --------
   function renderProductsGrid() {
     const grid = document.getElementById("productsGrid");
     if (!grid) return;
 
-    const items = PRODUCT_CATALOG.map((p) => {
-      const meta = `${p.category} · Código ${p.code}`;
-      const price = Core.formatMoney(p.price);
-      return `
+    const all = getAll();
+    const cards = all
+      .map((p) => {
+        const meta = `${p.category} · Código ${p.code || "s/c"}`;
+        const price = Core.formatMoney(p.price);
+        const hotBadge = p.hot
+          ? `<span class="badge-hot">HOT</span>`
+          : "";
+
+        return `
         <article class="product-card">
           <div class="product-card__image-placeholder">
             ${p.category}
@@ -80,31 +113,19 @@
           <h3 class="product-card__title">${p.name}</h3>
           <p class="product-card__meta">${meta}</p>
           <p class="product-card__price">${price}</p>
-          <button
-            class="btn btn--ghost btn--small js-open-modal"
-            data-modal-title="${p.name}"
-            data-modal-body="Editar ${p.name}: código ${p.code}, categoría ${p.category}, precio ${price}."
-          >
-            Editar
-          </button>
+          <p class="products-admin-origin">
+            ${hotBadge}
+            ${p.origin === "user" ? "· Creado por vos" : "· Catálogo base"}
+          </p>
         </article>
       `;
-    }).join("");
+      })
+      .join("");
 
-    grid.innerHTML = items;
-
-    // Enganchar modales
-    const buttons = grid.querySelectorAll(".js-open-modal");
-    buttons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const title = btn.getAttribute("data-modal-title") || "";
-        const body = btn.getAttribute("data-modal-body") || "";
-        window.CoreOpenModal?.(title, body);
-      });
-    });
+    grid.innerHTML = cards;
   }
 
-  // ----- CATÁLOGO PRESUPUESTOS -----
+  // -------- RENDER: catálogo para Presupuestos --------
   let catalogSearchInput,
     catalogCategorySelect,
     catalogSortSelect,
@@ -112,8 +133,16 @@
     catalogGrid;
 
   function buildCatalogCard(p) {
-    const meta = `${p.category} · Código ${p.code}`;
+    const meta = `${p.category} · Código ${p.code || "s/c"}`;
     const price = Core.formatMoney(p.price);
+    const poster =
+      p.poster || "assets/product_images/zen_ergo_negro.webp";
+    const video = p.video || "assets/videos/zen_ergo_negro.mp4";
+
+    const badgeHot = p.hot
+      ? `<span class="quote-product__badge-hot">HOT</span>`
+      : "";
+
     return `
       <article
         class="quote-product quote-product--reflected"
@@ -128,13 +157,14 @@
             muted
             loop
             preload="metadata"
-            poster="${p.poster}"
+            poster="${poster}"
           >
-            <source src="${p.video}" type="video/mp4" />
+            <source src="${video}" type="video/mp4" />
           </video>
           <div class="quote-product__overlay">
             <span class="quote-product__overlay-label">Ver vista</span>
           </div>
+          ${badgeHot}
         </div>
         <div class="quote-product__body">
           <h4 class="quote-product__title">${p.name}</h4>
@@ -174,7 +204,10 @@
         if (window.Budgets && typeof Budgets.addProductById === "function") {
           Budgets.addProductById(id);
         } else {
-          Core.showToast("El módulo de presupuestos aún no está listo.", "error");
+          Core.showToast(
+            "El módulo de presupuestos aún no está listo.",
+            "error"
+          );
         }
       });
     });
@@ -244,15 +277,229 @@
     applyCatalogFilters();
   }
 
+  // -------- MÓDULO ADMINISTRABLE --------
+  function fillProductForm(product) {
+    const idInput = document.getElementById("prodId");
+    const nameInput = document.getElementById("prodName");
+    const codeInput = document.getElementById("prodCode");
+    const catInput = document.getElementById("prodCategory");
+    const priceInput = document.getElementById("prodPrice");
+    const posterInput = document.getElementById("prodPoster");
+    const videoInput = document.getElementById("prodVideo");
+    const hotInput = document.getElementById("prodHot");
+
+    if (!product) {
+      if (idInput) idInput.value = "";
+      if (nameInput) nameInput.value = "";
+      if (codeInput) codeInput.value = "";
+      if (catInput) catInput.value = "Estaciones";
+      if (priceInput) priceInput.value = "";
+      if (posterInput) posterInput.value = "";
+      if (videoInput) videoInput.value = "";
+      if (hotInput) hotInput.checked = false;
+      return;
+    }
+
+    if (idInput) idInput.value = product.id;
+    if (nameInput) nameInput.value = product.name || "";
+    if (codeInput) codeInput.value = product.code || "";
+    if (catInput) catInput.value = product.category || "Estaciones";
+    if (priceInput) priceInput.value = product.price || "";
+    if (posterInput) posterInput.value = product.poster || "";
+    if (videoInput) videoInput.value = product.video || "";
+    if (hotInput) hotInput.checked = !!product.hot;
+  }
+
+  function renderProductsAdminTable() {
+    const tbody = document.querySelector("#productsAdminTable tbody");
+    if (!tbody) return;
+
+    const all = getAll();
+    tbody.innerHTML = "";
+
+    all.forEach((p) => {
+      const tr = document.createElement("tr");
+      const hotLabel = p.hot ? "Sí" : "No";
+      const originLabel =
+        p.origin === "user" ? "Creado por vos" : "Catálogo base";
+
+      const canEdit = p.origin === "user";
+      const editBtn =
+        `<button class="btn btn--ghost btn--small js-edit-product" data-id="${p.id}">Editar</button>`;
+      const deleteBtn = canEdit
+        ? `<button class="btn btn--ghost btn--small js-delete-product" data-id="${p.id}">Eliminar</button>`
+        : "";
+
+      tr.innerHTML = `
+        <td>${p.name}</td>
+        <td>${p.category}</td>
+        <td>${Core.formatMoney(p.price)}</td>
+        <td>${hotLabel}</td>
+        <td class="products-admin-origin">${originLabel}</td>
+        <td style="white-space:nowrap; display:flex; gap:4px;">
+          ${editBtn}
+          ${deleteBtn}
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    // Editar
+    tbody.querySelectorAll(".js-edit-product").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-id");
+        const prod = getById(id);
+        if (!prod) return;
+        if (prod.origin !== "user") {
+          Core.showToast(
+            "Los productos del catálogo base solo se pueden ver, no editar.",
+            "info"
+          );
+          return;
+        }
+        fillProductForm(prod);
+        Core.showToast("Producto cargado en el formulario.", "info");
+      });
+    });
+
+    // Eliminar
+    tbody.querySelectorAll(".js-delete-product").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-id");
+        const list = loadCustomProducts();
+        const exists = list.some((p) => p.id === id);
+        if (!exists) {
+          Core.showToast(
+            "Solo se pueden eliminar productos creados por vos.",
+            "error"
+          );
+          return;
+        }
+        if (
+          !window.confirm(
+            "¿Seguro que querés eliminar este producto? Los presupuestos ya guardados no se modifican."
+          )
+        ) {
+          return;
+        }
+        const updated = list.filter((p) => p.id !== id);
+        saveCustomProducts(updated);
+        renderProductsAdminTable();
+        renderProductsGrid();
+        applyCatalogFilters();
+        Core.showToast("Producto eliminado.", "success");
+        updateDashboardCounts();
+      });
+    });
+  }
+
+  function handleProductFormSubmit(event) {
+    event.preventDefault();
+    const idInput = document.getElementById("prodId");
+    const nameInput = document.getElementById("prodName");
+    const codeInput = document.getElementById("prodCode");
+    const catInput = document.getElementById("prodCategory");
+    const priceInput = document.getElementById("prodPrice");
+    const posterInput = document.getElementById("prodPoster");
+    const videoInput = document.getElementById("prodVideo");
+    const hotInput = document.getElementById("prodHot");
+
+    const name = nameInput?.value.trim();
+    if (!name) {
+      Core.showToast("El nombre del producto es obligatorio.", "error");
+      return;
+    }
+
+    const price = Number(priceInput?.value || 0);
+    if (!price || price < 0) {
+      Core.showToast("Indicá un precio válido.", "error");
+      return;
+    }
+
+    const idExisting = idInput?.value || "";
+    const isEdit = Boolean(idExisting);
+    const customList = loadCustomProducts();
+
+    let productId = idExisting;
+    if (!productId) {
+      productId = "custom-" + Core.generateId("prod");
+    }
+
+    const newProd = {
+      id: productId,
+      name,
+      code: codeInput?.value.trim() || "",
+      category: catInput?.value || "Estaciones",
+      price,
+      poster: posterInput?.value.trim() || "",
+      video: videoInput?.value.trim() || "",
+      hot: !!(hotInput && hotInput.checked),
+      origin: "user",
+    };
+
+    let newList;
+    if (isEdit) {
+      // actualizar
+      const idx = customList.findIndex((p) => p.id === productId);
+      if (idx >= 0) {
+        newList = [...customList];
+        newList[idx] = newProd;
+      } else {
+        // si por alguna razón el id no está en custom, lo agregamos
+        newList = [...customList, newProd];
+      }
+    } else {
+      newList = [...customList, newProd];
+    }
+
+    saveCustomProducts(newList);
+    fillProductForm(null);
+    renderProductsAdminTable();
+    renderProductsGrid();
+    applyCatalogFilters();
+    updateDashboardCounts();
+
+    Core.showToast(
+      isEdit ? "Producto actualizado." : "Producto creado.",
+      "success"
+    );
+  }
+
+  function initAdminModule() {
+    const form = document.getElementById("productForm");
+    const resetBtn = document.getElementById("productFormReset");
+
+    if (form) {
+      form.addEventListener("submit", handleProductFormSubmit);
+    }
+
+    if (resetBtn) {
+      resetBtn.addEventListener("click", () => {
+        fillProductForm(null);
+        Core.showToast("Formulario limpiado.", "info");
+      });
+    }
+
+    renderProductsAdminTable();
+    fillProductForm(null);
+  }
+
+  // -------- Dashboard counts helper --------
+  function updateDashboardCounts() {
+    const productsCount = getAll().length;
+    Core.setDashboardCounts({
+      budgetsToday: window.Budgets?.getTodayCount?.() ?? 0,
+      clients: window.Clients?.load?.().length ?? 0,
+      products: productsCount,
+    });
+  }
+
+  // -------- INIT --------
   function init() {
     renderProductsGrid();
     initCatalogModule();
-
-    // Dashboard: cantidad de productos
-    if (window.Core && typeof Core.setDashboardCounts === "function") {
-      const prev = { budgetsToday: 0, clients: 0, products: getAll().length };
-      Core.setDashboardCounts(prev);
-    }
+    initAdminModule();
+    updateDashboardCounts();
   }
 
   window.Products = {
