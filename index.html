@@ -762,6 +762,69 @@
             </form>
           </div>
         </section>
+        <section class="section" id="section-backup">
+  <h2 class="section__title">Exportar datos</h2>
+  <p class="section__subtitle">
+    Generá un archivo de backup con tus clientes, productos y presupuestos para guardarlo o compartirlo.
+  </p>
+
+  <div class="card">
+    <div class="card__header">
+      <div>
+        <h3 class="card__title">Backup rápido</h3>
+        <p class="card__hint">
+          Los archivos se descargan en formato <strong>.json</strong> y podés abrirlos con cualquier editor de texto o importarlos a otras herramientas.
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="grid grid--two"
+      style="align-items: center; gap: 1rem; margin-top: 0.5rem;"
+    >
+      <div class="form__group">
+        <p style="font-size: 0.85rem; color: #6b7280; max-width: 420px;">
+          Te recomiendo cada tanto descargar un backup completo. Si más adelante querés implementar importación o exportar a Excel, ya tenemos la base armada.
+        </p>
+      </div>
+
+      <div
+        class="form__group"
+        style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: flex-end;"
+      >
+        <button
+          type="button"
+          class="btn btn--primary"
+          id="exportAllBtn"
+        >
+          Exportar TODO (.json)
+        </button>
+        <button
+          type="button"
+          class="btn btn--ghost"
+          id="exportBudgetsBtn"
+        >
+          Solo presupuestos
+        </button>
+        <button
+          type="button"
+          class="btn btn--ghost"
+          id="exportClientsBtn"
+        >
+          Solo clientes
+        </button>
+        <button
+          type="button"
+          class="btn btn--ghost"
+          id="exportProductsBtn"
+        >
+          Solo productos
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
       </main>
     </div>
   </div>
@@ -788,10 +851,12 @@
 
   <!-- JS MODULAR -->
   <script src="js/core.js"></script>
-  <script src="js/config.js"></script>
-  <script src="js/products.js"></script>
-  <script src="js/clients.js"></script>
-  <script src="js/budgets.js"></script>
-  <script src="js/ui.js"></script>
+<script src="js/config.js"></script>
+<script src="js/products.js"></script>
+<script src="js/clients.js"></script>
+<script src="js/budgets.js"></script>
+<script src="js/exports.js"></script>
+<script src="js/ui.js"></script>
+
 </body>
 </html>
