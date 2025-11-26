@@ -152,217 +152,215 @@
 
         <!-- CLIENTES -->
         <section class="section" id="section-clientes">
-  <h2 class="section__title">Clientes</h2>
-  <p class="section__subtitle">
-    Administrá tu base de clientes. Los datos se usan en los presupuestos y el historial.
-  </p>
-
-  <div class="grid grid--two">
-    <!-- FORMULARIO -->
-    <div class="card">
-      <h3 class="card__title">Ficha de cliente</h3>
-      <p class="card__hint">
-        Creá o editá clientes. Se guardan en este navegador.
-      </p>
-
-      <form id="clientForm" class="form">
-        <input type="hidden" id="clientId" />
-
-        <div class="form__group">
-          <label for="clientName">Nombre / Razón social</label>
-          <input id="clientName" type="text" required />
-        </div>
-
-        <div class="form__group">
-          <label for="clientContact">Contacto</label>
-          <input id="clientContact" type="text" placeholder="Nombre de la persona" />
-        </div>
-
-        <div class="grid grid--two">
-          <div class="form__group">
-            <label for="clientEmail">Correo electrónico</label>
-            <input id="clientEmail" type="email" placeholder="cliente@ejemplo.com" />
-          </div>
-          <div class="form__group">
-            <label for="clientPhone">Teléfono</label>
-            <input id="clientPhone" type="tel" placeholder="+54 11 ..." />
-          </div>
-        </div>
-
-        <div class="form__group">
-          <label for="clientNotes">Notas internas</label>
-          <textarea id="clientNotes" rows="2" placeholder="Datos relevantes del cliente, horarios, referencias, etc."></textarea>
-        </div>
-
-        <div style="display:flex;gap:0.5rem;margin-top:0.4rem;">
-          <button type="submit" class="btn btn--primary">Guardar cliente</button>
-          <button type="button" class="btn btn--ghost" id="clientFormReset">
-            Limpiar formulario
-          </button>
-        </div>
-      </form>
-    </div>
-
-    <!-- LISTADO -->
-    <div class="card card--table">
-      <div class="card__header">
-        <div>
-          <h3 class="card__title">Listado de clientes</h3>
-          <p class="card__hint">
-            Vista general de tu base de clientes y sus presupuestos asociados.
+          <h2 class="section__title">Clientes</h2>
+          <p class="section__subtitle">
+            Administrá tu base de clientes. Los datos se usan en los presupuestos y el historial.
           </p>
-        </div>
 
-        <div class="form__group" style="min-width:220px;">
-          <label for="clientsSearch" style="font-size:0.75rem;">Buscar</label>
-          <input
-            id="clientsSearch"
-            type="text"
-            class="input"
-            placeholder="Nombre, contacto, mail..."
-          />
-        </div>
-      </div>
+          <div class="grid grid--two">
+            <!-- FORMULARIO -->
+            <div class="card">
+              <h3 class="card__title">Ficha de cliente</h3>
+              <p class="card__hint">
+                Creá o editá clientes. Se guardan en este navegador.
+              </p>
 
-      <div class="table-wrapper">
-        <table class="table table--compact" id="clientsTable">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Contacto</th>
-              <th>Mail</th>
-              <th>Teléfono</th>
-              <th>Presupuestos</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- filas generadas por JS -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</section>
+              <form id="clientForm" class="form">
+                <input type="hidden" id="clientId" />
 
+                <div class="form__group">
+                  <label for="clientName">Nombre / Razón social</label>
+                  <input id="clientName" type="text" required />
+                </div>
+
+                <div class="form__group">
+                  <label for="clientContact">Contacto</label>
+                  <input id="clientContact" type="text" placeholder="Nombre de la persona" />
+                </div>
+
+                <div class="grid grid--two">
+                  <div class="form__group">
+                    <label for="clientEmail">Correo electrónico</label>
+                    <input id="clientEmail" type="email" placeholder="cliente@ejemplo.com" />
+                  </div>
+                  <div class="form__group">
+                    <label for="clientPhone">Teléfono</label>
+                    <input id="clientPhone" type="tel" placeholder="+54 11 ..." />
+                  </div>
+                </div>
+
+                <div class="form__group">
+                  <label for="clientNotes">Notas internas</label>
+                  <textarea id="clientNotes" rows="2" placeholder="Datos relevantes del cliente, horarios, referencias, etc."></textarea>
+                </div>
+
+                <div style="display:flex;gap:0.5rem;margin-top:0.4rem;">
+                  <button type="submit" class="btn btn--primary">Guardar cliente</button>
+                  <button type="button" class="btn btn--ghost" id="clientFormReset">
+                    Limpiar formulario
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- LISTADO -->
+            <div class="card card--table">
+              <div class="card__header">
+                <div>
+                  <h3 class="card__title">Listado de clientes</h3>
+                  <p class="card__hint">
+                    Vista general de tu base de clientes y sus presupuestos asociados.
+                  </p>
+                </div>
+
+                <div class="form__group" style="min-width:220px;">
+                  <label for="clientsSearch" style="font-size:0.75rem;">Buscar</label>
+                  <input
+                    id="clientsSearch"
+                    type="text"
+                    class="input"
+                    placeholder="Nombre, contacto, mail..."
+                  />
+                </div>
+              </div>
+
+              <div class="table-wrapper">
+                <table class="table table--compact" id="clientsTable">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Contacto</th>
+                      <th>Mail</th>
+                      <th>Teléfono</th>
+                      <th>Presupuestos</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- filas generadas por JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <!-- PRODUCTOS -->
         <section class="section" id="section-productos">
-  <h2 class="section__title">Productos</h2>
-  <p class="section__subtitle">
-    Catálogo administrativo central. Los productos que cargues acá se usan en el generador de presupuestos.
-  </p>
+          <h2 class="section__title">Productos</h2>
+          <p class="section__subtitle">
+            Catálogo administrativo central. Los productos que cargues acá se usan en el generador de presupuestos.
+          </p>
 
-  <div class="grid grid--two">
-    <!-- EDITOR DE PRODUCTO -->
-    <div class="card">
-      <h3 class="card__title">Editor de producto</h3>
-      <p class="card__hint">
-        Creá nuevos productos o editá los que ya cargaste. Se guardan en este navegador.
-      </p>
+          <div class="grid grid--two">
+            <!-- EDITOR DE PRODUCTO -->
+            <div class="card">
+              <h3 class="card__title">Editor de producto</h3>
+              <p class="card__hint">
+                Creá nuevos productos o editá los que ya cargaste. Se guardan en este navegador.
+              </p>
 
-      <form id="productForm" class="form">
-        <!-- campo oculto para saber si estamos editando -->
-        <input type="hidden" id="prodId" />
+              <form id="productForm" class="form">
+                <!-- campo oculto para saber si estamos editando -->
+                <input type="hidden" id="prodId" />
 
-        <div class="form__group">
-          <label for="prodName">Nombre del producto</label>
-          <input id="prodName" type="text" required />
-        </div>
+                <div class="form__group">
+                  <label for="prodName">Nombre del producto</label>
+                  <input id="prodName" type="text" required />
+                </div>
 
-        <div class="form__group">
-          <label for="prodCode">Código interno</label>
-          <input id="prodCode" type="text" />
-        </div>
+                <div class="form__group">
+                  <label for="prodCode">Código interno</label>
+                  <input id="prodCode" type="text" />
+                </div>
 
-        <div class="grid grid--two">
-          <div class="form__group">
-            <label for="prodCategory">Categoría</label>
-            <select id="prodCategory">
-              <option value="Estaciones">Estaciones</option>
-              <option value="Sillas">Sillas</option>
-              <option value="Armarios">Armarios</option>
-              <option value="Otro">Otro</option>
-            </select>
+                <div class="grid grid--two">
+                  <div class="form__group">
+                    <label for="prodCategory">Categoría</label>
+                    <select id="prodCategory">
+                      <option value="Estaciones">Estaciones</option>
+                      <option value="Sillas">Sillas</option>
+                      <option value="Armarios">Armarios</option>
+                      <option value="Otro">Otro</option>
+                    </select>
+                  </div>
+                  <div class="form__group">
+                    <label for="prodPrice">Precio base (ARS)</label>
+                    <input id="prodPrice" type="number" min="0" required />
+                  </div>
+                </div>
+
+                <div class="form__group">
+                  <label for="prodPoster">Imagen (poster)</label>
+                  <input
+                    id="prodPoster"
+                    type="text"
+                    placeholder="Ruta opcional. Ej: assets/product_images/mi_silla.webp"
+                  />
+                </div>
+
+                <div class="form__group">
+                  <label for="prodVideo">Video</label>
+                  <input
+                    id="prodVideo"
+                    type="text"
+                    placeholder="Ruta opcional. Ej: assets/videos/mi_silla.mp4"
+                  />
+                </div>
+
+                <div class="form__group" style="flex-direction:row;align-items:center;gap:0.5rem;">
+                  <input id="prodHot" type="checkbox" />
+                  <label for="prodHot" style="margin:0;">Marcar como HOT / Destacado</label>
+                </div>
+
+                <div style="display:flex;gap:0.5rem;margin-top:0.4rem;">
+                  <button type="submit" class="btn btn--primary">Guardar producto</button>
+                  <button type="button" class="btn btn--ghost" id="productFormReset">
+                    Limpiar formulario
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- LISTADO ADMINISTRABLE -->
+            <div class="card card--table">
+              <div class="card__header">
+                <h3 class="card__title">Listado de productos</h3>
+              </div>
+
+              <div class="table-wrapper">
+                <table class="table table--compact" id="productsAdminTable">
+                  <thead>
+                    <tr>
+                      <th>Nombre</th>
+                      <th>Categoría</th>
+                      <th>Precio</th>
+                      <th>HOT</th>
+                      <th>Origen</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- filas generadas por JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-          <div class="form__group">
-            <label for="prodPrice">Precio base (ARS)</label>
-            <input id="prodPrice" type="number" min="0" required />
+
+          <!-- VISTA RESUMEN EN TARJETAS -->
+          <div class="card">
+            <div class="card__header">
+              <h3 class="card__title">Vista en tarjetas</h3>
+              <p class="card__hint">
+                Vista rápida de todo el catálogo actual (base + productos creados por vos).
+              </p>
+            </div>
+            <div class="products-grid" id="productsGrid">
+              <!-- tarjetas generadas por JS -->
+            </div>
           </div>
-        </div>
-
-        <div class="form__group">
-          <label for="prodPoster">Imagen (poster)</label>
-          <input
-            id="prodPoster"
-            type="text"
-            placeholder="Ruta opcional. Ej: assets/product_images/mi_silla.webp"
-          />
-        </div>
-
-        <div class="form__group">
-          <label for="prodVideo">Video</label>
-          <input
-            id="prodVideo"
-            type="text"
-            placeholder="Ruta opcional. Ej: assets/videos/mi_silla.mp4"
-          />
-        </div>
-
-        <div class="form__group" style="flex-direction:row;align-items:center;gap:0.5rem;">
-          <input id="prodHot" type="checkbox" />
-          <label for="prodHot" style="margin:0;">Marcar como HOT / Destacado</label>
-        </div>
-
-        <div style="display:flex;gap:0.5rem;margin-top:0.4rem;">
-          <button type="submit" class="btn btn--primary">Guardar producto</button>
-          <button type="button" class="btn btn--ghost" id="productFormReset">
-            Limpiar formulario
-          </button>
-        </div>
-      </form>
-    </div>
-
-    <!-- LISTADO ADMINISTRABLE -->
-    <div class="card card--table">
-      <div class="card__header">
-        <h3 class="card__title">Listado de productos</h3>
-      </div>
-
-      <div class="table-wrapper">
-        <table class="table table--compact" id="productsAdminTable">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Categoría</th>
-              <th>Precio</th>
-              <th>HOT</th>
-              <th>Origen</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- filas generadas por JS -->
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- VISTA RESUMEN EN TARJETAS -->
-  <div class="card">
-    <div class="card__header">
-      <h3 class="card__title">Vista en tarjetas</h3>
-      <p class="card__hint">
-        Vista rápida de todo el catálogo actual (base + productos creados por vos).
-      </p>
-    </div>
-    <div class="products-grid" id="productsGrid">
-      <!-- tarjetas generadas por JS -->
-    </div>
-  </div>
-</section>
-
+        </section>
 
         <!-- PRESUPUESTOS -->
         <section class="section" id="section-presupuestos">
@@ -572,98 +570,97 @@
 
         <!-- HISTORIAL -->
         <section class="section" id="section-historial">
-  <div class="section__header">
-    <div>
-      <h2 class="section__title">Historial de presupuestos</h2>
-      <p class="section__subtitle">
-        Listado completo de los presupuestos generados desde la plataforma.
-      </p>
-    </div>
-  </div>
+          <div class="section__header">
+            <div>
+              <h2 class="section__title">Historial de presupuestos</h2>
+              <p class="section__subtitle">
+                Listado completo de los presupuestos generados desde la plataforma.
+              </p>
+            </div>
+          </div>
 
-  <div class="card card--table">
-    <div class="card__header">
-      <div>
-        <h3 class="card__title">Presupuestos guardados</h3>
-        <p class="card__subtitle">
-          Buscá, filtrá y cambiá el estado de tus presupuestos.
-        </p>
-      </div>
-    </div>
+          <div class="card card--table">
+            <div class="card__header">
+              <div>
+                <h3 class="card__title">Presupuestos guardados</h3>
+                <p class="card__subtitle">
+                  Buscá, filtrá y cambiá el estado de tus presupuestos.
+                </p>
+              </div>
+            </div>
 
-    <!-- Filtros del historial -->
-    <div class="history-filters">
-      <div class="form__group">
-        <label for="historySearch">Buscar</label>
-        <input
-          id="historySearch"
-          type="text"
-          class="input"
-          placeholder="Cliente o # de presupuesto"
-        />
-      </div>
+            <!-- Filtros del historial -->
+            <div class="history-filters">
+              <div class="form__group">
+                <label for="historySearch">Buscar</label>
+                <input
+                  id="historySearch"
+                  type="text"
+                  class="input"
+                  placeholder="Cliente o # de presupuesto"
+                />
+              </div>
 
-        <div class="form__group">
-    <label for="historyClientFilter">Cliente</label>
-    <select id="historyClientFilter" class="select">
-      <option value="">Todos</option>
-      <!-- opciones generadas por JS -->
-    </select>
-  </div>
+              <div class="form__group">
+                <label for="historyClientFilter">Cliente</label>
+                <select id="historyClientFilter" class="select">
+                  <option value="">Todos</option>
+                  <!-- opciones generadas por JS -->
+                </select>
+              </div>
 
+              <div class="form__group">
+                <label for="historyStatusFilter">Estado</label>
+                <select id="historyStatusFilter" class="select">
+                  <option value="">Todos</option>
+                  <option value="Borrador">Borrador</option>
+                  <option value="En revisión">En revisión</option>
+                  <option value="Aprobado">Aprobado</option>
+                  <option value="Perdido">Perdido</option>
+                </select>
+              </div>
 
-      <div class="form__group">
-        <label for="historyStatusFilter">Estado</label>
-        <select id="historyStatusFilter" class="select">
-          <option value="">Todos</option>
-          <option value="Borrador">Borrador</option>
-          <option value="En revisión">En revisión</option>
-          <option value="Aprobado">Aprobado</option>
-          <option value="Perdido">Perdido</option>
-        </select>
-      </div>
+              <div class="form__group">
+                <label for="historyDateFrom">Desde</label>
+                <input id="historyDateFrom" type="date" class="input" />
+              </div>
 
-      <div class="form__group">
-        <label for="historyDateFrom">Desde</label>
-        <input id="historyDateFrom" type="date" class="input" />
-      </div>
+              <div class="form__group">
+                <label for="historyDateTo">Hasta</label>
+                <input id="historyDateTo" type="date" class="input" />
+              </div>
 
-      <div class="form__group">
-        <label for="historyDateTo">Hasta</label>
-        <input id="historyDateTo" type="date" class="input" />
-      </div>
+              <div class="form__group history-filters__btn">
+                <label>&nbsp;</label>
+                <button
+                  type="button"
+                  class="btn btn--ghost btn--small"
+                  id="historyResetFilters"
+                >
+                  Limpiar filtros
+                </button>
+              </div>
+            </div>
 
-      <div class="form__group history-filters__btn">
-        <label>&nbsp;</label>
-        <button
-          type="button"
-          class="btn btn--ghost btn--small"
-          id="historyResetFilters"
-        >
-          Limpiar filtros
-        </button>
-      </div>
-    </div>
-
-    <div class="table-wrapper">
-      <table class="table table--hover" id="historyBudgetsTable">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Cliente</th>
-            <th>Fecha</th>
-            <th>Total</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Se completa por JS -->
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
+            <div class="table-wrapper">
+              <table class="table table--hover" id="historyBudgetsTable">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Cliente</th>
+                    <th>Fecha</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Se completa por JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
 
         <!-- PLATAFORMA -->
         <section class="section" id="section-plataforma">
@@ -705,9 +702,10 @@
         <section class="section" id="section-configuracion">
           <h2 class="section__title">Configuración</h2>
           <p class="section__subtitle">
-            Ajustes generales del sistema. Se guardan en este navegador.
+            Guardá la información básica de tu negocio.
           </p>
 
+          <!-- Parámetros generales -->
           <div class="card">
             <h3 class="card__title">Parámetros generales</h3>
             <form class="form" id="configForm">
@@ -761,70 +759,42 @@
               </button>
             </form>
           </div>
+
+          <!-- Exportar / backup de datos -->
+          <div class="card">
+            <div class="card__header">
+              <div>
+                <h3 class="card__title">Exportar / backup de datos</h3>
+                <p class="card__hint">
+                  Generá archivos <strong>.json</strong> con tus clientes, productos y presupuestos para guardarlos o compartirlos.
+                </p>
+              </div>
+            </div>
+
+            <div class="grid grid--two" style="align-items:center; gap:1rem; margin-top:0.5rem;">
+              <div class="form__group">
+                <p style="font-size:0.85rem; color:#6b7280; max-width:420px;">
+                  Te recomiendo, cada tanto, descargar un backup completo. Más adelante podés usar estos archivos para importar o llevar la info a otras herramientas.
+                </p>
+              </div>
+
+              <div class="form__group" style="display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:flex-end;">
+                <button type="button" class="btn btn--primary" id="exportAllBtn">
+                  Exportar TODO (.json)
+                </button>
+                <button type="button" class="btn btn--ghost" id="exportBudgetsBtn">
+                  Solo presupuestos
+                </button>
+                <button type="button" class="btn btn--ghost" id="exportClientsBtn">
+                  Solo clientes
+                </button>
+                <button type="button" class="btn btn--ghost" id="exportProductsBtn">
+                  Solo productos
+                </button>
+              </div>
+            </div>
+          </div>
         </section>
-        <section class="section" id="section-backup">
-  <h2 class="section__title">Exportar datos</h2>
-  <p class="section__subtitle">
-    Generá un archivo de backup con tus clientes, productos y presupuestos para guardarlo o compartirlo.
-  </p>
-
-  <div class="card">
-    <div class="card__header">
-      <div>
-        <h3 class="card__title">Backup rápido</h3>
-        <p class="card__hint">
-          Los archivos se descargan en formato <strong>.json</strong> y podés abrirlos con cualquier editor de texto o importarlos a otras herramientas.
-        </p>
-      </div>
-    </div>
-
-    <div
-      class="grid grid--two"
-      style="align-items: center; gap: 1rem; margin-top: 0.5rem;"
-    >
-      <div class="form__group">
-        <p style="font-size: 0.85rem; color: #6b7280; max-width: 420px;">
-          Te recomiendo cada tanto descargar un backup completo. Si más adelante querés implementar importación o exportar a Excel, ya tenemos la base armada.
-        </p>
-      </div>
-
-      <div
-        class="form__group"
-        style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: flex-end;"
-      >
-        <button
-          type="button"
-          class="btn btn--primary"
-          id="exportAllBtn"
-        >
-          Exportar TODO (.json)
-        </button>
-        <button
-          type="button"
-          class="btn btn--ghost"
-          id="exportBudgetsBtn"
-        >
-          Solo presupuestos
-        </button>
-        <button
-          type="button"
-          class="btn btn--ghost"
-          id="exportClientsBtn"
-        >
-          Solo clientes
-        </button>
-        <button
-          type="button"
-          class="btn btn--ghost"
-          id="exportProductsBtn"
-        >
-          Solo productos
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-
       </main>
     </div>
   </div>
@@ -851,12 +821,11 @@
 
   <!-- JS MODULAR -->
   <script src="js/core.js"></script>
-<script src="js/config.js"></script>
-<script src="js/products.js"></script>
-<script src="js/clients.js"></script>
-<script src="js/budgets.js"></script>
-<script src="js/exports.js"></script>
-<script src="js/ui.js"></script>
-
+  <script src="js/config.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/clients.js"></script>
+  <script src="js/budgets.js"></script>
+  <script src="js/exports.js"></script>
+  <script src="js/ui.js"></script>
 </body>
 </html>
