@@ -699,7 +699,7 @@
         </section>
 
         <!-- CONFIGURACIÓN -->
-        <section class="section" id="section-configuracion">
+        <<section class="section" id="section-configuracion">
           <h2 class="section__title">Configuración</h2>
           <p class="section__subtitle">
             Guardá la información básica de tu negocio.
@@ -790,6 +790,38 @@
                 </button>
                 <button type="button" class="btn btn--ghost" id="exportProductsBtn">
                   Solo productos
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Importar backup -->
+          <div class="card">
+            <div class="card__header">
+              <div>
+                <h3 class="card__title">Importar backup</h3>
+                <p class="card__hint">
+                  Cargá un archivo <strong>.json</strong> generado con “Exportar TODO (.json)”. Esta acción reemplaza los datos locales por los del archivo.
+                </p>
+              </div>
+            </div>
+
+            <div class="grid grid--two" style="align-items:flex-end; gap:1rem; margin-top:0.5rem;">
+              <div class="form__group">
+                <label for="importBackupFile">Archivo de backup (.json)</label>
+                <input
+                  id="importBackupFile"
+                  type="file"
+                  accept=".json,application/json"
+                />
+                <p style="font-size:0.8rem; color:#6b7280; margin-top:0.35rem;">
+                  Usá preferentemente archivos creados desde este mismo panel con el botón “Exportar TODO (.json)”.
+                </p>
+              </div>
+
+              <div class="form__group" style="display:flex; justify-content:flex-end;">
+                <button type="button" class="btn btn--primary" id="importBackupBtn">
+                  Importar backup
                 </button>
               </div>
             </div>
