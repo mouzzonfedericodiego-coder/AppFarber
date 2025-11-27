@@ -1528,3 +1528,119 @@ body.theme-dark #budgetGeneratedCard .table tbody tr {
     font-weight: 700;
   }
 }
+
+/* Presupuesto PRO – encabezado de documento */
+
+.budget-doc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.budget-doc-header__subtitle {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  margin-top: 0.15rem;
+}
+
+.budget-doc-header__right {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1 1 260px;
+}
+
+.budget-doc-meta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.budget-doc-meta__field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 110px;
+}
+
+.budget-doc-meta__label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  margin-bottom: 0.1rem;
+}
+
+.budget-doc-meta__value {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+/* Versión impresión: encabezado bien ordenado */
+@media print {
+  .budget-doc-header {
+    margin-bottom: 6pt;
+  }
+
+  .budget-doc-header__subtitle {
+    font-size: 9pt;
+  }
+
+  .budget-doc-meta__label {
+    font-size: 8pt;
+  }
+
+  .budget-doc-meta__value {
+    font-size: 10pt;
+  }
+}
+
+/* ------------------------------------------------ */
+/* PACK PDF2 – Cabecera y pie del documento impreso */
+/* ------------------------------------------------ */
+
+@media print {
+  /* Más aire arriba y abajo para el documento */
+  #section-presupuestos {
+    padding-top: 20mm !important;
+    padding-bottom: 15mm !important;
+  }
+
+  /* Cabecera fija arriba de cada hoja */
+  body::before {
+    content: "Farber Panel · Presupuesto";
+    position: fixed;
+    top: 5mm;
+    left: 0;
+    right: 0;
+    text-align: left;
+    padding: 0 15mm;
+    font-size: 11pt;
+    font-weight: 600;
+    color: #111827;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 3mm;
+  }
+
+  /* Pie de página fijo */
+  body::after {
+    content: "Documento generado con Farber Panel · Uso interno";
+    position: fixed;
+    bottom: 5mm;
+    left: 0;
+    right: 0;
+    text-align: right;
+    padding: 3mm 15mm 0 15mm;
+    font-size: 8pt;
+    color: #6b7280;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  /* Que la card del presupuesto no se pegue al borde superior */
+  #budgetGeneratedCard {
+    margin-top: 5mm !important;
+    margin-bottom: 0 !important;
+  }
+}
