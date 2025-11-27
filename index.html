@@ -35,6 +35,24 @@
           <span class="sidebar__icon">🧾</span>
           <span>Presupuestos</span>
         </a>
+        <a
+  href="#"
+  class="sidebar__link js-nav-link"
+  data-section="pedidos"
+>
+  <span class="sidebar__icon">📦</span>
+  <span>Pedidos</span>
+</a>
+
+<a
+  href="#"
+  class="sidebar__link js-nav-link"
+  data-section="recepciones"
+>
+  <span class="sidebar__icon">✅</span>
+  <span>Recepción</span>
+</a>
+
         <a href="#" class="sidebar__link js-nav-link" data-section="historial">
           <span class="sidebar__icon">📊</span>
           <span>Historial</span>
@@ -439,6 +457,50 @@
                 </div>
               </div>
 
+              <div class="budget-grid budget-grid--two budget-extra">
+  <div class="form__group">
+    <label for="budgetDeliveryTime">Tiempo de entrega estimado</label>
+    <input
+      id="budgetDeliveryTime"
+      type="text"
+      placeholder="Ej: 30 a 45 días hábiles"
+    />
+  </div>
+  <div class="form__group">
+    <label for="budgetValidity">Validez del presupuesto</label>
+    <input
+      id="budgetValidity"
+      type="text"
+      placeholder="Ej: 15 días desde la emisión"
+    />
+  </div>
+</div>
+
+<div class="form__group">
+  <label for="budgetConditions">Condiciones comerciales</label>
+  <textarea
+    id="budgetConditions"
+    rows="2"
+    placeholder="Ej: Precios más IVA, 50% anticipo y 50% contra entrega, etc."
+  ></textarea>
+</div>
+
+<div class="budget-conditions-presets">
+  <span class="budget-conditions-presets__label">Usar plantilla rápida:</span>
+  <div class="budget-conditions-presets__buttons">
+    <button type="button" class="btn btn--ghost btn--xs" data-conditions-preset="standard">
+      Estándar
+    </button>
+    <button type="button" class="btn btn--ghost btn--xs" data-conditions-preset="contado">
+      Solo contado
+    </button>
+    <button type="button" class="btn btn--ghost btn--xs" data-conditions-preset="medida">
+      Proyecto a medida
+    </button>
+  </div>
+</div>
+
+
               <!-- CATÁLOGO PARA ARMAR PRESUPUESTO -->
               <div class="card budget-card">
                 <h3 class="card__title">Catálogo</h3>
@@ -486,55 +548,143 @@
                 </p>
               </div>
 
+              <!-- Ítems personalizados -->
+<div class="card" id="customItemCard">
+  <h3 class="card__title">Agregar ítem personalizado</h3>
+
+  <div class="grid grid--three" style="margin-top: 0.5rem;">
+    <div class="form__group">
+      <label>Descripción</label>
+      <input type="text" id="customItemName" placeholder="Ej: Instalación" />
+    </div>
+
+    <div class="form__group">
+      <label>Cantidad</label>
+      <input type="number" id="customItemQty" min="1" value="1" />
+    </div>
+
+    <div class="form__group">
+      <label>Precio unitario</label>
+      <input type="number" id="customItemPrice" min="0" value="0" />
+    </div>
+  </div>
+
+  <button class="btn btn--primary" id="addCustomItemBtn" style="margin-top: 0.6rem;">
+    Agregar ítem
+  </button>
+</div>
+
               <!-- PRESUPUESTO GENERADO -->
-              <div class="card budget-card" id="budgetGeneratedCard">
-                <h3 class="card__title">Presupuesto generado</h3>
+            <div class="card budget-card" id="budgetGeneratedCard">
+  <div class="card__header budget-doc-header">
+    <div class="budget-doc-header__left">
+      <h3 class="card__title">Presupuesto</h3>
+      <p class="budget-doc-header__subtitle">
+        Revisá el detalle antes de imprimir o enviar al cliente.
+      </p>
+    </div>
+    <div class="budget-doc-extra">
+  <div class="budget-doc-extra__item">
+    <span class="budget-doc-extra__label">Entrega estimada</span>
+    <span class="budget-doc-extra__value" id="budgetDocDeliveryPreview">–</span>
+  </div>
+  <div class="budget-doc-extra__item">
+    <span class="budget-doc-extra__label">Validez</span>
+    <span class="budget-doc-extra__value" id="budgetDocValidityPreview">–</span>
+  </div>
+</div>
 
-                <div class="table-wrapper">
-                  <table class="table" id="budgetItemsTable">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Producto</th>
-                        <th>Precio unidad</th>
-                        <th>Unidades</th>
-                        <th>Subtotal</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody id="budgetItemsBody">
-                      <!-- filas desde JS -->
-                    </tbody>
-                  </table>
-                </div>
+    <div class="budget-doc-header__right">
+      <div class="budget-doc-meta">
+        <div class="budget-doc-meta__field">
+          <span class="budget-doc-meta__label">Cliente</span>
+          <span class="budget-doc-meta__value" id="budgetDocClientPreview">
+            Sin especificar
+          </span>
+        </div>
+        <div class="budget-doc-meta__field">
+          <span class="budget-doc-meta__label">Fecha</span>
+          <span class="budget-doc-meta__value" id="budgetDocDatePreview">
+            —
+          </span>
+        </div>
+        <div class="budget-doc-meta__field">
+          <span class="budget-doc-meta__label">N°</span>
+          <span class="budget-doc-meta__value" id="budgetDocNumber">
+            0001
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-                <div class="budget-summary">
-                  <div class="budget-summary__left">
-                    <span>Subtotal: <strong id="summarySubtotal">$ 0</strong></span>
-                    <span>Descuento: <strong id="summaryDiscount">$ 0 (0%)</strong></span>
-                    <span>Envío: <strong id="summaryShipping">$ 0</strong></span>
-                    <span>IVA: <strong id="summaryIVA">$ 0</strong></span>
-                  </div>
-                  <div class="budget-summary__right">
-                    <span class="budget-summary__total-label">Total final:</span>
-                    <span class="budget-summary__total-value" id="summaryTotal">
-                      $ 0
-                    </span>
-                  </div>
-                </div>
+  <div class="table-wrapper">
+    <table class="table" id="budgetItemsTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Producto</th>
+          <th>Precio unidad</th>
+          <th>Unidades</th>
+          <th>Subtotal</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="budgetItemsBody">
+        <!-- filas desde JS -->
+      </tbody>
+    </table>
+  </div>
 
-                <div class="budget-actions">
-                  <button class="btn btn--primary" type="button" id="saveBudgetBtn">
-                    Guardar presupuesto
-                  </button>
-                  <button class="btn btn--ghost" type="button" id="downloadPdfBtn">
-                    Descargar PDF (imprimir)
-                  </button>
-                  <button class="btn btn--ghost" type="button" id="clearBudgetBtn">
-                    Limpiar presupuesto
-                  </button>
-                </div>
-              </div>
+  <!-- 🔹 NUEVO: Subtotales por grupo -->
+  <div class="budget-subtotals" id="budgetSubtotalsBox">
+    <!-- El contenido se rellena desde JS -->
+  </div>
+  <div class="budget-conditions-preview" id="budgetConditionsPreviewBox">
+  <span class="budget-conditions-preview__label">Condiciones comerciales:</span>
+  <span class="budget-conditions-preview__text" id="budgetConditionsPreview">
+    –
+  </span>
+</div>
+
+  <div class="budget-summary">
+    <div class="budget-summary__left">
+      <span>Subtotal: <strong id="summarySubtotal">$ 0</strong></span>
+      <span>Descuento:
+        <strong id="summaryDiscount">$ 0 (0%)</strong>
+      </span>
+      <span>Envío: <strong id="summaryShipping">$ 0</strong></span>
+      <span>IVA: <strong id="summaryIVA">$ 0</strong></span>
+    </div>
+    <div class="budget-summary__right">
+      <span class="budget-summary__total-label">Total final:</span>
+      <span class="budget-summary__total-value" id="summaryTotal">
+        $ 0
+      </span>
+    </div>
+  </div>
+
+  <div class="budget-actions">
+    <button
+  class="btn btn--primary"
+  type="button"
+  id="sendToOrdersBtn"
+>
+  Confirmar venta / pasar a pedidos
+</button>
+
+    <button class="btn btn--primary" type="button" id="saveBudgetBtn">
+      Guardar presupuesto
+    </button>
+    <button class="btn btn--ghost" type="button" id="downloadPdfBtn">
+      Descargar PDF (imprimir)
+    </button>
+    <button class="btn btn--ghost" type="button" id="clearBudgetBtn">
+      Limpiar presupuesto
+    </button>
+  </div>
+</div>
+
             </div>
 
             <!-- PANEL DE PRESUPUESTOS GUARDADOS -->
@@ -567,6 +717,75 @@
             </div>
           </div>
         </section>
+
+        <!-- PEDIDOS -->
+<section
+  class="section"
+  id="section-pedidos"
+  data-section-name="pedidos"
+>
+  <h2 class="section__title">Pedidos</h2>
+  <p class="section__subtitle">
+    Seguimiento de ventas concretadas a partir de tus presupuestos.
+  </p>
+
+  <div class="card">
+    <h3 class="card__title">Listado de pedidos</h3>
+
+    <div class="table-wrapper">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Cliente</th>
+            <th>Pago / seña</th>
+            <th>Entrega</th>
+            <th>Estado</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="ordersTableBody">
+          <!-- Se completa desde JS (orders.js) -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- RECEPCIÓN DE FÁBRICA -->
+<section
+  class="section"
+  id="section-recepciones"
+  data-section-name="recepciones"
+>
+  <h2 class="section__title">Recepción de fábrica</h2>
+  <p class="section__subtitle">
+    Marcá qué productos de los pedidos ya llegaron para organizar las entregas.
+  </p>
+
+  <div class="card">
+    <h3 class="card__title">Ítems por recibir</h3>
+
+    <div class="table-wrapper">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Pedido</th>
+            <th>Cliente</th>
+            <th>Producto</th>
+            <th>Cant.</th>
+            <th>Recibido</th>
+          </tr>
+        </thead>
+        <tbody id="recepcionesTableBody">
+          <!-- Se completa desde JS (orders.js) -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
 
         <!-- HISTORIAL -->
         <section class="section" id="section-historial">
@@ -853,11 +1072,17 @@
 
   <!-- JS MODULAR -->
   <script src="js/core.js"></script>
-  <script src="js/config.js"></script>
-  <script src="js/products.js"></script>
-  <script src="js/clients.js"></script>
-  <script src="js/budgets.js"></script>
-  <script src="js/exports.js"></script>
-  <script src="js/ui.js"></script>
+<script src="js/config.js"></script>
+<script src="js/products.js"></script>
+<script src="js/clients.js"></script>
+<script src="js/budgets.js"></script>
+<script src="js/exports.js"></script>
+<script src="js/budgetHeader.js"></script>
+<script src="js/customItems.js"></script>
+<script src="js/budgetSubtotals.js"></script>
+<script src="js/budgetExtra.js"></script>
+<script src="js/orders.js"></script>
+<script src="js/ui.js"></script>
+
 </body>
 </html>

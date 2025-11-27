@@ -1644,3 +1644,276 @@ body.theme-dark #budgetGeneratedCard .table tbody tr {
     margin-bottom: 0 !important;
   }
 }
+
+/* ------------------------------------------------ */
+/* PACK G2 – Cards globales más pro                */
+/* ------------------------------------------------ */
+
+.card {
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  backdrop-filter: blur(8px);
+}
+
+/* Encabezados de card un poquito más definidos */
+.card__header {
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.card__title {
+  letter-spacing: 0.01em;
+}
+
+/* Oscuro un poco más elegante */
+body.theme-dark .card {
+  border-color: rgba(51, 65, 85, 0.9);
+  background: radial-gradient(circle at top left, #020617, #020617 40%, #020617);
+}
+
+/* Topbar más marcada y limpia */
+.topbar {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.45);
+  backdrop-filter: blur(14px);
+}
+
+.topbar__title h1 {
+  letter-spacing: 0.02em;
+  font-size: 1.15rem;
+}
+
+.topbar__title p {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+/* Tablas globales un poquito más suaves */
+
+.table thead th {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.72rem;
+}
+
+.table tbody tr:hover {
+  background: rgba(248, 250, 252, 0.9);
+}
+
+body.theme-dark .table tbody tr:hover {
+  background: rgba(15, 23, 42, 0.9);
+}
+/* Sidebar rematada versión PRO */
+.sidebar__logo-text {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+.sidebar__logo-mark {
+  font-weight: 800;
+}
+
+/* Hover y active ya los mejoramos antes, esto solo refina */
+.sidebar__link {
+  font-size: 0.85rem;
+}
+
+/* H2 – Subtotales por grupo en presupuesto */
+.budget-subtotals {
+  margin-top: 0.75rem;
+  margin-bottom: 0.35rem;
+  display: none; /* se muestra solo cuando hay contenido */
+}
+
+.budget-subtotals__inner {
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-md);
+  border: 1px dashed rgba(148, 163, 184, 0.7);
+  background: rgba(248, 250, 252, 0.85);
+}
+
+body.theme-dark .budget-subtotals__inner {
+  background: rgba(15, 23, 42, 0.9);
+  border-color: rgba(148, 163, 184, 0.8);
+}
+
+.budget-subtotals__title {
+  display: block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin-bottom: 0.3rem;
+}
+
+.budget-subtotals__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+}
+
+.budget-subtotals__item {
+  display: flex;
+  gap: 0.35rem;
+  align-items: baseline;
+}
+
+.budget-subtotals__item-label {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.budget-subtotals__item-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+/* H3 – Datos comerciales extra en presupuesto */
+
+.budget-doc-extra {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.budget-doc-extra__item {
+  display: flex;
+  gap: 0.35rem;
+  align-items: baseline;
+}
+
+.budget-doc-extra__label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+}
+
+.budget-doc-extra__value {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Condiciones comerciales debajo de subtotales */
+.budget-conditions-preview {
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+  display: none; /* se muestra solo si hay texto */
+}
+
+.budget-conditions-preview__label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin-right: 0.25rem;
+}
+
+.budget-conditions-preview__text {
+  font-size: 0.85rem;
+}
+
+/* Versión impresión */
+@media print {
+  .budget-doc-extra {
+    margin-top: 4pt;
+    margin-bottom: 4pt;
+    font-size: 9pt;
+  }
+
+  .budget-conditions-preview__label {
+    font-size: 8pt;
+  }
+
+  .budget-conditions-preview__text {
+    font-size: 9pt;
+  }
+}
+/* H4 – Plantillas rápidas de condiciones */
+
+.budget-conditions-presets {
+  margin-top: 0.35rem;
+  font-size: 0.78rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  align-items: center;
+}
+
+.budget-conditions-presets__label {
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.budget-conditions-presets__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+/* Botoncitos extra pequeños */
+.btn.btn--xs {
+  padding: 0.2rem 0.55rem;
+  font-size: 0.7rem;
+  border-radius: 999px;
+}
+
+/* Estado de pedidos: puntito de color */
+.status-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  margin-right: 0.3rem;
+}
+
+.status-dot--pendiente {
+  background: #f97316; /* naranja */
+}
+
+.status-dot--parcial {
+  background: #eab308; /* amarillo */
+}
+
+.status-dot--completo {
+  background: #22c55e; /* verde */
+}
+
+.status-dot--vacio {
+  background: #6b7280;
+}
+
+.status-label {
+  font-size: 0.8rem;
+}
+
+/* Toggle de recepción (checkbox bonito) */
+.recepcion-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recepcion-toggle input {
+  display: none;
+}
+
+.recepcion-toggle__fake {
+  width: 16px;
+  height: 16px;
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  box-sizing: border-box;
+  transition: background 0.18s ease, border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.recepcion-toggle__fake--checked {
+  background: #22c55e;
+  border-color: #15803d;
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.35);
+}

@@ -345,11 +345,15 @@
           <td>${b.clientName}</td>
           <td>${b.date}</td>
           <td>${Core.formatMoney(b.total || 0)}</td>
-          <td>
-            <button class="btn btn--ghost btn--small js-duplicate-budget" data-id="${b.id}">
-              Duplicar
-            </button>
-          </td>
+          <td style="display:flex; gap:0.4rem;">
+  <button class="btn btn--ghost js-duplicateBudget" data-id="${b.id}">
+      Duplicar
+  </button>
+
+  <button class="btn btn--danger js-deleteBudget" data-id="${b.id}">
+      Eliminar
+  </button>
+</td>
         `;
       savedTbody.appendChild(tr);
     });
@@ -696,6 +700,29 @@
     populateHistoryClientFilter();
     updateSavedTables();
   }
+  
+    // --- ELIMINAR PRESUPUESTO GUARDADO ---
+  document.addEventListener("click", function (e) {
+    const btn = e.target.closest(".js-deleteBudget");
+    if (!btn) return;
+
+    const id = btn.getAttribute("data-id");
+    if (!id) return;
+
+    if (!window.confirm("¿Seguro que querés eliminar este presupuesto?")) {
+      return;
+    }
+
+    // Usamos las funciones internas correctas
+    let list = loadBudgets();
+    list = list.filter((b) => b.id !== id);
+    saveBudgets(list);
+
+    // Actualizamos todas las vistas que dependen de los presupuestos
+    updateSavedTables();
+
+    Core.showToast("Presupuesto eliminado", "success");
+  });
 
   window.Budgets = {
     init,
